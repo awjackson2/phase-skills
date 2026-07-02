@@ -33,6 +33,8 @@ Plus one **maintenance skill** that is *not* shipped into other projects — it 
 
 - `phase-amend/SKILL.md` — applies a change to a shared phase convention consistently across its whole sync surface (canonical docs, every embedded skill copy, the template assets, the charter, `CLAUDE.md`, and the memory), verifies no drift remains, and overrides the installed `.claude/skills/` copies. Use it whenever a change touches a shared rule rather than one skill's private wording — the duplication that keeps skills self-contained is exactly what makes hand-editing drift.
 
+**Public packaging** (for GitHub / skill directories such as SkillsMP, which auto-index repos by their `SKILL.md` files and `claude-skills` / `claude-code-skill` topics): `README.md` (the public face — includes a condensed numbering diagram, banner list, and install instructions), `LICENSE` (MIT), and `.claude-plugin/` (`plugin.json` + `marketplace.json`, exposing the seven shipped skills as the `phase-workflow` plugin — `phase-amend` is deliberately excluded). The README duplicates convention summaries, so treat it as part of `phase-amend`'s sync surface; keep the plugin manifests' skill lists in step if skills are added or renamed.
+
 `revere_portal_CLAUDE.md` is a **reference artifact only**, kept for context: a complete CLAUDE.md from a real project that used these skills. It is not part of any shipped skill and is not authoritative for the generalized skills. Do not edit it, and do not copy its project-specific details into the skills.
 
 ## Skill architecture (the big picture)

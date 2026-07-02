@@ -1,0 +1,31 @@
+{
+  "name": "phase-workflow",
+  "version": "1.0.0",
+  "description": "Phase-driven development workflow for Claude Code: plan-before-code gates, per-phase plans and logs under development/phase_log/, worktree + branch discipline, roadmap decomposition, looped execution, and integrity audits.",
+  "author": {
+    "name": "awjackson2",
+    "url": "https://github.com/awjackson2"
+  },
+  "repository": "https://github.com/awjackson2/phase-skills",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "planning",
+    "phases",
+    "project-management",
+    "git-workflow",
+    "worktrees",
+    "claude-code",
+    "agent-skills",
+    "skill-md"
+  ],
+  "skills": [
+    "./phase-tracker",
+    "./phase-recap",
+    "./phase-decompose",
+    "./phase-loop",
+    "./phase-project-init",
+    "./phase-adopt",
+    "./phase-audit"
+  ]
+}

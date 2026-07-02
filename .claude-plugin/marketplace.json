@@ -1,0 +1,15 @@
+{
+  "name": "phase-skills",
+  "owner": {
+    "name": "awjackson2",
+    "url": "https://github.com/awjackson2"
+  },
+  "plugins": [
+    {
+      "name": "phase-workflow",
+      "source": "./",
+      "description": "Phase-driven development workflow for Claude Code: plan-before-code gates, per-phase plans and logs, worktree + branch discipline, roadmap decomposition, looped execution, and integrity audits. Installs the seven phase skills (tracker, recap, decompose, loop, project-init, adopt, audit).",
+      "version": "1.0.0"
+    }
+  ]
+}
