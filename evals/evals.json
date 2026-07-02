@@ -1,0 +1,23 @@
+{
+  "skill_name": "phase-amend",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I want to add a new response banner: '⏸️ Blocked' — for when a phase is stuck waiting on an external dependency and can't proceed. Add it to the workflow and make sure everything's consistent.",
+      "expected_output": "The new banner is added to templates/response_templates.md (table + a section), phase_project.md's banner list, and CLAUDE.md's banner enumeration + count; the '8 banners' count is bumped to 9 everywhere it appears; a sensible owning skill (likely phase-tracker) references it. No leftover count mismatches. Working skills overridden into .claude/skills and a note to reload.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Change the rule so that the phase index is ordered numerically (by phase number) instead of chronologically. Update all the phase skills to be accurate.",
+      "expected_output": "Every place that states 'bottom = newest / chronological' is updated to numeric ordering: phase-tracker Step 3, phase-recap (Step 1 + nuance), the phase_index.md asset (ordering note + footer), phase_project.md, CLAUDE.md invariant. The change is applied canonical-first and verified with a grep for the old wording. phase-recap's derived logic that depended on 'bottom = newest' is reconciled.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Update the terminology: rename 'Patch' to 'Task' everywhere (so it's Major / Minor / Task now). Keep everything consistent across the skills, the charter, and the memory.",
+      "expected_output": "Patch → Task across TERMINOLOGY.md (hierarchy, core terms, appendability examples), all seven skills' embedded copies, response_templates.md, phase_project.md, CLAUDE.md, the template asset headers, and the appendability memory. The capitalization rule and file-naming examples updated. revere_portal_CLAUDE.md left untouched. Grep for 'Patch' returns zero hits outside the reference artifact.",
+      "files": []
+    }
+  ]
+}
