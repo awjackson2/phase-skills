@@ -17,7 +17,11 @@ Plan-before-code gates · per-phase tracking · worktree discipline · decomposi
 
 ## What is this?
 
-Phase Skills turns Claude Code into a disciplined engineering partner: **every meaningful piece of work becomes a numbered phase** with a written plan (approved *before* any code), an isolated branch + worktree, and a written log when it ships. The phase log becomes durable project memory — future sessions recap from it instead of re-reading the codebase.
+These are my personal Claude Code workflow skills that I have progressivly engineered throughout various coding projects. They help keep my AI coding sessions organized, documented, and linear, which consequentially make my codebase more AI friendly.
+
+Basically all developments are broken down into three phase types (Majors, Minors, and Patches). Each phase is kept with its own phase_x_plan.md and phase_x_log.md, so it is easy to remeber (or contextualize) what happened during a specific phase of development.
+
+Newly, I added 'phase-loop', which is a skill that allows you to plan a Major phase, that gets broken down into Minors, then Claude will continously cycle through "phase cycles" (creating plan docs + dev environment -> develop -> log changes + open PR + destroy dev environment) for each Minor, until your larger Major phase has been complete. This makes it easy to start large scale plans and walk away from your computer with trust that developments will be documented, clean, and revertable. 
 
 The workflow is enforced by seven cooperating skills built around one shared state directory, `development/phase_log/`:
 
