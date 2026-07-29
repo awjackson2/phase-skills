@@ -16,7 +16,7 @@ Terminology (Major / Minor / Patch, capitalized) follows [TERMINOLOGY.md](../../
 
 ## Where state lives
 
-Everything this skill reads is under `development/phase_log/`. The agent does **not** read source code, configs, or git history while running this skill — those are the wrong source of truth for "what's the project state". The phase log is the curated record; trust it.
+Everything this skill reads is under `development/phase_log/`. In a bundle-shaped project each record opens with front matter carrying `phase`, `phase_status`, `delivery_status`, and `recorded_on` — read those rather than inferring state from prose, and fall back to the body only when the front matter is absent. The agent does **not** read source code, configs, or git history while running this skill — those are the wrong source of truth for "what's the project state". The phase log is the curated record; trust it.
 
 The canonical entry point is `development/phase_log/phase_index.md` — the chronological table of contents, one line per phase, with status annotations (✓ shipped, partial, abandoned, planned-not-shipped) and a one-sentence summary. Read it first. Always.
 

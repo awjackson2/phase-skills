@@ -28,6 +28,8 @@ Where each shared convention lives. Grep to confirm before editing (files shift 
 | **Git / worktree / PR rules** | `phase-tracker` (Git rules, Mode 2 Step 4), `phase-loop` (branch strategy), `phase-project-init` / `phase-adopt` (docs-lane vs bootstrap), `phase_project.md` |
 | **Plan / log section lists** | `phase-tracker` (Mode 1 Step 3, Mode 2 Step 2), the two template assets |
 | **Scoped-recap scope rules** | `TERMINOLOGY.md` (table), `phase-recap` (Mode B), `templates/recap_template.md`, `CLAUDE.md` |
+| **Knowledge bundle** (`development/` holds only concepts; schema + validator in `scripts/okf/`; evidence outside) | `TERMINOLOGY.md` (Knowledge-bundle terms), `phase-tracker` ("Plans and logs are concepts", Modes 1–2, Step 3.5, commit step), `phase-audit` (checks 11–12), `phase-project-init` (Step 3 + assets), `phase-adopt` (install step), `phase-recap` (front matter over prose), `phase-decompose` / `phase-loop` (the umbrella is a record too), `phase_project.md`, `CLAUDE.md`, **the `development-is-a-knowledge-bundle` memory**, and the asset payload under `phase-project-init/assets/` (`development/**` *and* `scripts/okf/**`) |
+| **Concept contract** (front-matter fields, footer labels, pair-status rule) | `scripts/okf/profile.md` **and** `scripts/okf/manage_bundle.py` in the assets — these two must change together, since a rule that lives only in prose is a rule that drifts — plus the two phase template assets and `phase-tracker` |
 
 Two locations are easy to forget because they aren't plain repo `.md` files:
 

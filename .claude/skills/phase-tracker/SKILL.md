@@ -19,6 +19,38 @@ Always follow the template structure. Templates exist so future readers (and Cla
 
 A chronological table of contents for every phase lives at `development/phase_log/phase_index.md`. Keep it in sync whenever a new phase log is written (see Mode 2, Step 3).
 
+## Plans and logs are concepts
+
+`development/` is a **knowledge bundle**: every file in it is a concept, meaning
+it carries YAML front matter and ends with a `## OKF relationships` footer. A
+plan or log is not a loose note that happens to live in a folder — it is a node
+in the project's knowledge graph, and the templates already have the right
+shape. Fill them in; do not strip the front matter.
+
+Three rules bite in practice:
+
+- **`phase` must equal the number in the filename.** Renaming a file without
+  updating its front matter is the most common break.
+- **A plan and its log must agree** on `phase`, `phase_status`, and
+  `delivery_status`. Because the log is written last, writing it also means
+  updating the *plan's* front-matter status to the reviewed outcome. The plan's
+  narrative still says "Status: Planned" — that is intentional, preserving the
+  state in which it was authored.
+- **A log must link its plan** under the `Plan` label, and each record needs at
+  least one impact relationship — *Intended* on a plan, *Verified* on a log.
+  Link what the work actually touched; never infer a relationship from
+  phase-number adjacency or filename similarity.
+
+Check your work before committing, if the project carries the validator:
+
+```bash
+python3 scripts/okf/manage_bundle.py validate
+```
+
+Evidence — audits, triage notes, scratch research — never goes inside
+`development/`. It belongs elsewhere in the repo, and the validator refuses
+strays on purpose. See `scripts/okf/profile.md` for the full contract.
+
 ## Terminology
 
 Follows [TERMINOLOGY.md](../../../TERMINOLOGY.md). A phase identifier is the three-digit `MAJOR.MINOR.PATCH` (digits only — never a letter suffix). The levels nest: a **Major** contains Minors; a **Minor** contains Patches.
@@ -84,7 +116,7 @@ If any are unclear, ask. Do not invent scope. "While we're at it" extensions go 
 
 ### Step 3: Write the plan file
 
-Create `development/phase_log/phase_<NUM>_plan.md` using the structure in `phase_plan_template.md`. Required sections: Phase (number, name, status="Planned", date drafted), Purpose, Immediate Goal (numbered deliverables), Confirmed Starting Point (with real file paths), Scope For This Phase (In / Out), Recommended Implementation Direction, Technical Plan, Test Plan, Key Decisions, Expected Limitations At End Of Phase, What Comes Next, Summary.
+Create `development/phase_log/phase_<NUM>_plan.md` using the structure in `phase_plan_template.md`. Keep its front matter (`type`, `title`, `description`, `tags`, `phase`, `phase_status: planned`, `delivery_status: none`, `recorded_on`) and its `## OKF relationships` footer. Required sections: Phase (number, name, status="Planned", date drafted), Purpose, Immediate Goal (numbered deliverables), Confirmed Starting Point (with real file paths), Scope For This Phase (In / Out), Recommended Implementation Direction, Technical Plan, Test Plan, Key Decisions, Expected Limitations At End Of Phase, What Comes Next, Summary.
 
 Style: reference real file paths (the plan is a working document, not a pitch); be specific about what will and won't change; follow each rule with its reasoning; keep "Out Of Scope" honest; the Test Plan covers the scoped tests this phase's modules need — the full suite is the PR's CI job, not a plan step.
 
@@ -137,7 +169,7 @@ Read: the plan file (what was promised), `git log` for the phase branch / commit
 
 ### Step 2: Write the log file
 
-Create `development/phase_log/phase_<NUM>_log.md` using `phase_log_template.md`. Required sections: Phase (number, name, status="Completed"/"Stopped", date completed), Phase Goal (2-4 sentences, as it actually applied), Major Additions, Major Changes, Progress Made, Key Decisions, Current Limitations, Artifacts Produced (with file paths), What Comes Next, Summary.
+Create `development/phase_log/phase_<NUM>_log.md` using `phase_log_template.md`. Set its front matter to the truthful outcome and update the **plan's** `phase_status`/`delivery_status` to match — the pair must agree. The footer links the plan under `Plan` and records at least one *Verified* impact. Required sections: Phase (number, name, status="Completed"/"Stopped", date completed), Phase Goal (2-4 sentences, as it actually applied), Major Additions, Major Changes, Progress Made, Key Decisions, Current Limitations, Artifacts Produced (with file paths), What Comes Next, Summary.
 
 Style: reference real file paths; be honest about what was deferred (list it under Current Limitations, don't bury it); call out in-phase course corrections under Major Changes; don't over-claim (if a feature works in tests but wasn't validated end-to-end, say so).
 
@@ -157,7 +189,7 @@ Because every phase appends to this one file, two phase branches open at the sam
 
 ### Step 3.5: Sync any living design docs
 
-If the project keeps curated "current state" docs (architecture/design docs, a data dictionary, a behavior-tracking README section), those are the curated present; the phase log is the immutable history. Before committing: identify which docs the phase touched, update their content, set their "last synced" marker (e.g. `Last synced: Phase X.Y.Z (YYYY-MM-DD)`) to this phase, append one row to any phase-history table, and stage these edits with the phase commit so log + index + design docs land as one unit. If the phase touched no design doc, say so in the log instead of skipping silently. If the project has no such docs, skip this step.
+If the project keeps curated "current state" docs — in a bundle-shaped project these are the concepts under `development/design/`, each created from `_element_template.md` — those are the curated present; the phase log is the immutable history. Before committing: identify which docs the phase touched, update their content, set their "last synced" marker (e.g. `Last synced: Phase X.Y.Z (YYYY-MM-DD)`) to this phase, append one row to any phase-history table, and stage these edits with the phase commit so log + index + design docs land as one unit. If the phase touched no design doc, say so in the log instead of skipping silently. If the project has no such docs, skip this step.
 
 ### Step 4: Commit the phase, then sync with the default branch
 
@@ -167,6 +199,7 @@ After the log is written and the index entry appended, **commit the phase's work
 - Message format: `Phase X.Y.Z: <short summary>`.
 - **Commit to the phase branch, never to the default branch.** The default branch is protected. The phase is already on its `phase-<MAJOR.MINOR>-slug` branch; Patches commit onto that same branch.
 - Stage the phase's code, tests, plan/log/index files, and any synced design docs together with an explicit file list (never `git add -A`) so the phase is one atomic, revertable unit. End the message with the `Co-Authored-By:` trailer.
+- If the project carries `scripts/okf/manage_bundle.py`, run `validate` (and `build`, if the graph is checked in) before committing. CI that skips tests for documentation-only changes will not catch a malformed record — a phase-log-only change is exactly the shape that slips through.
 - **After committing, pull/rebase onto the latest default branch and resolve conflicts.** Re-run affected scoped tests if new code merged in.
 - **Open the PR when the Minor wraps** — one PR per Minor: push the branch and open a PR to the default branch (`gh pr create`), title `Phase X.Y.Z: <summary>`, body summarizing the log(s). If the Minor has planned Patches (e.g. `2.1.0` then `2.1.1`), wait until the **last** planned phase on the branch is committed, then open a single PR covering them all — not one PR per phase. A Patch raised *after* the Minor's PR merged is a new cycle: its own branch off the latest default branch, its own PR. Merge only after CI is green.
 
