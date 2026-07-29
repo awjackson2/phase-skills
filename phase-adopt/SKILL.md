@@ -42,7 +42,7 @@ On a fresh `docs/adopt-phase-workflow` branch cut from the up-to-date default br
 - Install the **knowledge bundle** by copying `phase-project-init/assets/development/` → `development/` and `phase-project-init/assets/scripts/okf/` → `scripts/okf/`. That lands the reserved root files (`index.md`, `log.md`, `.okfignore`), the `design/` layer with its element template, the three phase-log templates, and the stdlib-only validator plus its schema. The seeded index gets the Step 3 backfill (or the empty-with-note form).
 - Run `python3 scripts/okf/manage_bundle.py validate` before opening the PR. On an existing repo this matters more than on a fresh one: if the project already had a `development/` directory holding notes, audits, or tooling, the validator will refuse them, and **that refusal is the finding** — move them out of the bundle rather than loosening the boundary. Say plainly what you moved and why.
 - If the project will keep living design docs, create `development/design/` and mention `phase-tracker` Step 3.5 will sync them.
-- Add `.claude/worktrees/` to the project's `.gitignore` (create the file if absent) — every phase worktree is created there and must never be tracked by the primary checkout.
+- Add `.worktrees/` to the project's `.gitignore` (create the file if absent) — every phase worktree is created there and must never be tracked by the primary checkout.
 - Optionally install the conventions at the project root (`TERMINOLOGY.md`, `templates/recap_template.md`, `templates/response_templates.md`, `phase_project.md`) so the skills' links resolve and the repo self-documents.
 
 ### Step 5: Seed or update CLAUDE.md

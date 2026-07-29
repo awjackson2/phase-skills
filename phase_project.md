@@ -85,7 +85,7 @@ work, not which tool happened to be open.
 ### Git rules
 
 - **Never develop on the default branch** — it's protected; changes reach it only through merged PRs.
-- Cut each Minor's branch + worktree from an up-to-date default branch; **create the worktree under `.claude/worktrees/<branch-name>` — never anywhere else** (keep `.claude/worktrees/` gitignored). Do all work in the worktree. Patches commit onto the Minor's branch.
+- Cut each Minor's branch + worktree from an up-to-date default branch; **create the worktree under `.worktrees/<branch-name>` — never anywhere else** (keep `.worktrees/` gitignored). Do all work in the worktree. Patches commit onto the Minor's branch.
 - Commit with **explicit file lists** (never `git add -A`), a `Phase X.Y.Z:` message, and a `Co-Authored-By:` trailer.
 - One PR per Minor (wait for its last planned Patch). After it merges, remove the worktree; delete the branch.
 - Doc-only changes (phase log, design docs, this charter) use a short `docs/<topic>` branch + PR — still never a direct commit to the default branch.
