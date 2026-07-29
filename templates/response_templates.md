@@ -8,7 +8,7 @@ Conventions:
 - Keep bodies tight. These are interaction frames, not essays.
 - Fill `<…>` placeholders; drop rows that don't apply.
 
-The eight types:
+The nine types:
 
 | Type | When | Banner |
 |---|---|---|
@@ -20,6 +20,7 @@ The eight types:
 | Tangent | Discussion unrelated to the phase | 💬 TANGENT |
 | Loop Progress | One iteration of a phase-loop just finished | 🔁 PHASE LOOP |
 | Phase Recap | A scoped recap report (see `recap_template.md`) | 🧭 PHASE RECAP |
+| Phase Audit | Phase/OKF/git integrity report | 🩺 PHASE AUDIT |
 
 ---
 
@@ -135,4 +136,25 @@ Anything missing before I close this phase?
 
 **Just shipped:** Phase <NUM> — <name>
 **Next:** Phase <NUM> — <name>   <!-- or: none — effort complete -->
+```
+
+---
+
+## 🧭 Phase Recap
+
+> A scoped, most-recent-first report. Use `recap_template.md`.
+
+```text
+### 🧭 PHASE RECAP · scope: <Major N | Minor X.Y | Patch X.Y.Z>
+```
+
+---
+
+## 🩺 Phase Audit
+
+> A severity-ordered integrity report across OKF phase concepts, design sync,
+> indexes, attribution, worktrees, and branches.
+
+```text
+### 🩺 PHASE AUDIT · <N> findings (<H> high · <M> medium · <L> low)
 ```

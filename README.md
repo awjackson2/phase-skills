@@ -2,13 +2,13 @@
 
 # Phase Skills
 
-**A phase-driven development workflow for Claude Code, packaged as drop-in agent skills.**
+**An OKF-native, phase-driven development workflow for Claude Code and ChatGPT/Codex.**
 
 Plan-before-code gates · per-phase tracking · worktree discipline · decomposition · looped execution · audit
 
 [![Skills](https://img.shields.io/badge/skills-7-blue)](#the-skills)
 [![SKILL.md](https://img.shields.io/badge/format-SKILL.md-orange)](https://code.claude.com/docs/en/skills)
-[![Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-d97757)](https://claude.com/claude-code)
+[![Agents](https://img.shields.io/badge/works%20with-Claude%20%2B%20Codex-6f42c1)](#installation)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 </div>
@@ -17,11 +17,21 @@ Plan-before-code gates · per-phase tracking · worktree discipline · decomposi
 
 ## What is this?
 
-These are my personal Claude Code workflow skills that I have progressivly engineered throughout various coding projects. They help keep my AI coding sessions organized, documented, and linear, which consequentially make my codebase more AI friendly.
+These are my personal agent-workflow skills, progressively engineered across
+real projects. Claude Code and ChatGPT/Codex receive the same workflow:
+plan-before-code gates, phase history, worktree discipline, OKF-native
+knowledge, and visible agent attribution.
 
 Basically all developments are broken down into three phase types (Majors, Minors, and Patches). Each phase is kept with its own phase_x_plan.md and phase_x_log.md, so it is easy to remeber (or contextualize) what happened during a specific phase of development.
 
-Newly, I added 'phase-loop', which is a skill that allows you to plan a Major phase, that gets broken down into Minors, then Claude will continously cycle through "phase cycles" (creating plan docs + dev environment -> develop -> log changes + open PR + destroy dev environment) for each Minor, until your larger Major phase has been complete. This makes it easy to start large scale plans and walk away from your computer with trust that developments will be documented, clean, and revertable. 
+`phase-loop` plans a Major, breaks it into Minors, and lets the active agent
+advance phase cycles continuously: create the born-native plan and worktree,
+develop, write the log, attribute the commit/PR, and clean up. Every cycle is
+documented, reviewable, and revertible.
+
+All new plans, logs, and living design documents are direct Open Knowledge
+Format concepts under `development/`. There are no wrapper copies or later
+normalization passes.
 
 The workflow is enforced by seven cooperating skills built around one shared state directory, `development/phase_log/`:
 
@@ -49,7 +59,7 @@ An eighth skill, [`phase-amend`](phase-amend/SKILL.md), is a maintenance tool fo
 
 ## Installation
 
-**As a Claude Code plugin (recommended — one command, easy updates):**
+### Claude Code plugin
 
 ```
 /plugin marketplace add awjackson2/phase-skills
@@ -58,7 +68,7 @@ An eighth skill, [`phase-amend`](phase-amend/SKILL.md), is a maintenance tool fo
 
 This installs the seven workflow skills as a single plugin.
 
-**Or copy the skill folders directly** into `.claude/skills/` (per project) or `~/.claude/skills/` (everywhere).
+Or copy the seven root skill folders into `.claude/skills/`.
 
 Per project:
 
@@ -76,11 +86,25 @@ mkdir -p ~/.claude/skills
 cp -r /tmp/phase-skills/phase-{tracker,recap,decompose,loop,project-init,adopt,audit} ~/.claude/skills/
 ```
 
+### ChatGPT and Codex
+
+The repository includes exact mirrors under `.agents/skills/`. Copy them into
+the target project's `.agents/skills/`:
+
+```bash
+git clone https://github.com/awjackson2/phase-skills.git /tmp/phase-skills
+mkdir -p .agents/skills
+cp -r /tmp/phase-skills/.agents/skills/phase-{tracker,recap,decompose,loop,project-init,adopt,audit} .agents/skills/
+```
+
+`CLAUDE.md`, `AGENTS.md`, and `AGENT.md` are exact agent-neutral mirrors. The
+init/adopt skills install equivalent guidance into projects.
+
 You don't need all seven — `phase-tracker` + `phase-recap` alone give you the core plan/log loop. Add the others as you need setup, decomposition, looping, or auditing.
 
 ## Quick start
 
-In a Claude Code session with the skills installed:
+In a Claude Code or ChatGPT/Codex session with the skills installed:
 
 - **Fresh project:** *"Set up the phase workflow here"* → `phase-project-init` scaffolds everything, then hands off to your first phase.
 - **Existing repo:** *"Adopt the phase workflow in this repo"* → `phase-adopt` retrofits it via a docs-only PR.
@@ -106,23 +130,32 @@ A Major is never "sealed" — related future work is always numbered near its th
 
 ### The phase cycle
 
-Each Minor runs one cycle: **new worktree + branch + phase plan → implement → phase log + commit → PR**. Plans are approved before code is written; logs are written before the PR opens. All state lives in `development/phase_log/` as plain markdown — `phase_<NUM>_plan.md`, `phase_<NUM>_log.md`, and a chronological `phase_index.md`.
+Each Minor runs one cycle: **new worktree + branch + phase plan → implement →
+phase log + commit → PR**. Plans are approved before code; logs are written
+before the PR. Each numbered plan/log is a direct born-native OKF concept with
+complete YAML and a reviewed relationship footer. Living design concepts use
+the same Revere-proven direct-authoring shape.
 
 ### Response banners
 
-Every workflow turn opens with a labeled banner, so you always know what Claude is asking for:
+Every workflow turn opens with a labeled banner, so you always know what the
+active agent is asking for:
 
 🟦 `PLAN CONFIRMATION` · 🟩 `DEVELOPMENT APPROVAL` · 🏁 `PHASE DONE` · 🔧 `FIX` · ❓ `OUTSIDE QUESTION` · 💬 `TANGENT` · 🔁 `PHASE LOOP` · 🧭 `PHASE RECAP` · 🩺 `PHASE AUDIT`
 
 ## Repository layout
 
 ```
-phase-<name>/SKILL.md        the seven installable skills (+ phase-amend, repo-maintenance only)
-phase-project-init/assets/   the phase-log scaffolding that init installs
+.agents/skills/phase-*/      exact ChatGPT/Codex mirrors
+phase-<name>/SKILL.md        Claude plugin sources (+ phase-amend maintenance)
+phase-project-init/assets/   complete OKF + PR scaffold installed into projects
 TERMINOLOGY.md               canonical glossary (Major/Minor/Patch, recap scoping, core principles)
+OKF.md                       direct-concept + relationship + attribution profile
 templates/                   recap + response-banner formats
-phase_project.md             portable workflow charter — paste into any project's CLAUDE.md
-CLAUDE.md                    authoring guide for this repo
+phase_project.md             portable agent-neutral workflow charter
+CLAUDE.md / AGENTS.md / AGENT.md
+                             exact authoring-guide mirrors
+scripts/validate_repo.py     deterministic mirror and template validation
 ```
 
 Each skill is self-contained — it embeds every convention it needs, so it works dropped into a project alone. The root docs are the canonical source the skills are kept in sync with.

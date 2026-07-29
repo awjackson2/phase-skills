@@ -1,7 +1,7 @@
 {
   "name": "phase-workflow",
-  "version": "1.0.0",
-  "description": "Phase-driven development workflow for Claude Code: plan-before-code gates, per-phase plans and logs under development/phase_log/, worktree + branch discipline, roadmap decomposition, looped execution, and integrity audits.",
+  "version": "1.1.0",
+  "description": "OKF-native phase-driven development workflow: plan-before-code gates, direct phase and design concepts, worktree and PR discipline, roadmap execution, integrity audits, and agent attribution.",
   "author": {
     "name": "awjackson2",
     "url": "https://github.com/awjackson2"
@@ -16,6 +16,8 @@
     "git-workflow",
     "worktrees",
     "claude-code",
+    "codex",
+    "open-knowledge-format",
     "agent-skills",
     "skill-md"
   ],

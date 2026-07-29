@@ -70,6 +70,18 @@ exclusion rule. Run `python3 scripts/okf/manage_bundle.py validate` at each phas
 boundary; CI that skips tests for docs-only changes will not catch a malformed
 record on its own.
 
+### Agent attribution
+
+Disclose material agent participation where a reviewer will see it:
+
+- one `Co-Authored-By:` commit trailer per materially contributing agent, using
+  a stable identity (`Claude <noreply@anthropic.com>`, `Codex <noreply@openai.com>`);
+- a closing `## Agent signatures` section in the PR body naming each contributing
+  agent and what it did, or `None — human-only change.`
+
+Omit agents that did not materially contribute. Attribution records who did the
+work, not which tool happened to be open.
+
 ### Git rules
 
 - **Never develop on the default branch** — it's protected; changes reach it only through merged PRs.
