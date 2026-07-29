@@ -44,6 +44,32 @@ prompt → discuss/refine → pick the number → cut the `phase-<MAJOR.MINOR>-s
 - `development/phase_log/phase_index.md` — the timeline, **appended chronologically (bottom = newest), not numeric**. A high number can sit above a lower one logged later.
 - Plan/log templates live beside them. A `MAJOR.0.0` plan is an umbrella/roadmap for a milestone.
 
+`development/` is a **knowledge bundle** and holds only concepts:
+
+```
+development/
+  index.md  log.md  .okfignore     reserved structure, not concepts
+  design/                          curated current state
+  phase_log/                       phase plans and logs
+scripts/okf/
+  manage_bundle.py                 validator + graph builder (stdlib only)
+  profile.md                       the schema it enforces
+```
+
+Every concept carries YAML front matter (`type`, `title`, `description`, `tags`;
+phase records add `phase`, `phase_status`, `delivery_status`, `recorded_on`) and
+every phase record ends with one `## OKF relationships` footer. A plan and its
+log must agree on status, and a log must link its plan — so writing the log also
+updates the plan's front matter, while the plan's narrative keeps recording the
+state in which it was authored.
+
+Evidence — audits, triage notes, scratch research — lives **outside**
+`development/`. It may support a claim but never becomes current-state
+authority, so it sits outside the bundle by construction rather than by an
+exclusion rule. Run `python3 scripts/okf/manage_bundle.py validate` at each phase
+boundary; CI that skips tests for docs-only changes will not catch a malformed
+record on its own.
+
 ### Git rules
 
 - **Never develop on the default branch** — it's protected; changes reach it only through merged PRs.

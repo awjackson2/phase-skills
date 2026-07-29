@@ -16,7 +16,7 @@ It is **not itself a phase** — bootstrapping needs no phase plan or log. It is
 By the end, the project has:
 
 1. A git repository with an initial commit and a known default branch.
-2. `development/phase_log/` containing the three templates and a seeded `phase_index.md`.
+2. A **knowledge bundle** at `development/` — a `design/` layer, a `phase_log/` layer with the three templates and a seeded `phase_index.md`, and the reserved root files — plus its schema and validator under `scripts/okf/`.
 3. The conventions the phase skills rely on, optionally documented at the project root.
 4. A clear answer to "what's the first phase?" — handed off to `phase-tracker` (single effort) or `phase-loop` (large umbrella plan).
 
@@ -32,14 +32,39 @@ Confirm the directory to initialize and that it is meant to be a new phase-workf
 - Create a `.gitignore` if none exists — minimal and appropriate to the stack the user names (don't guess heavily; a near-empty `.gitignore` is fine to start). Include `.claude/worktrees/` — every phase worktree is created there and must never be tracked by the primary checkout.
 - Note the **branch-protection convention** to the user: the default branch is protected by policy — all later changes reach it only through PRs. Local git can't enforce this; if a remote exists, suggest enabling branch protection there. Record it as a rule, not an enforced setting.
 
-### Step 3: Create the development structure
+### Step 3: Create the knowledge bundle
 
-- Create `development/` and `development/phase_log/`.
-- Copy this skill's bundled templates into `development/phase_log/`:
-  - `assets/development/phase_log/phase_plan_template.md`
-  - `assets/development/phase_log/phase_log_template.md`
-  - `assets/development/phase_log/phase_index.md`  (the seeded, empty index)
-- If the user wants living design docs (Step 1), create `development/design/` and tell them `phase-tracker` Step 3.5 will keep those in sync with the phase log. Otherwise leave it out — it's optional.
+`development/` is a **knowledge bundle**: everything inside it is a concept — a
+document with front matter that the validator checks. Evidence and analysis
+(audits, triage notes, scratch research) live *outside* it, so the directory
+explains itself without anyone reading an ignore file.
+
+Copy this skill's bundled payload wholesale — the asset tree is already the
+target shape:
+
+- `assets/development/` → `development/`
+  - `index.md`, `log.md`, `.okfignore` — the reserved root files.
+  - `design/index.md`, `design/_element_template.md` — the curated
+    current-state layer.
+  - `phase_log/phase_plan_template.md`, `phase_log/phase_log_template.md`,
+    `phase_log/phase_index.md` — the phase-history layer, seeded and empty.
+- `assets/scripts/okf/` → `scripts/okf/`
+  - `manage_bundle.py` — the validator and graph builder. Stdlib only, so it
+    runs before the project has installed anything.
+  - `profile.md` — the schema contract it enforces.
+
+Then prove the scaffold is sound before committing it:
+
+```bash
+python3 scripts/okf/manage_bundle.py validate
+```
+
+A fresh bundle reports two concepts (the design template and the profile). If
+it reports an error, fix the scaffold rather than proceeding — every later
+phase depends on this being clean.
+
+Keep `design/` even if the project has nothing to document yet; the layer costs
+one index file and `phase-tracker` Step 3.5 fills it in as phases land.
 
 ### Step 4: Install the conventions (optional but recommended)
 
@@ -57,7 +82,7 @@ Add the **phase workflow charter** to the project's `CLAUDE.md`: paste the conte
 
 ### Step 6: Initial commit
 
-Stage the scaffolding with an explicit file list (the `development/` tree, `.gitignore`, any conventions/CLAUDE.md added) and commit to the default branch:
+Stage the scaffolding with an explicit file list (the `development/` tree, `scripts/okf/`, `.gitignore`, any conventions/CLAUDE.md added) and commit to the default branch:
 
 ```
 chore: bootstrap phase workflow scaffolding
@@ -81,6 +106,7 @@ When done, give the user a short report: repo initialized (default branch), `dev
 ## What this skill should not do
 
 - Do not run it on an already-initialized project (one that has `development/phase_log/`). Use `phase-recap` to load state instead.
+- Do not put anything but concepts inside `development/`. Audits, triage notes, scratch research, and tooling go elsewhere in the repo — the validator fails on strays, and that refusal is the point.
 - Do not treat the bootstrap as a phase — no plan/log for the setup itself.
 - Do not commit project source code in the bootstrap commit; this commit is scaffolding only. Real work starts on a branch in the next step.
 - Do not invent project specifics (stack, design docs, branch names) — ask when unsure.

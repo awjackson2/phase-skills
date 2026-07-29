@@ -36,6 +36,16 @@ This is *why* the numbering clusters by theme (see Step 1 of `phase-tracker`): k
 
 > **Capitalization rule.** Always capitalize **Major**, **Minor**, and **Patch** when they refer to phases, so it is unambiguous we mean a phase and not an ordinary word ("a minor tweak", "a patch to the file"). Lowercase only when using the everyday English meaning.
 
+## Knowledge-bundle terms
+
+- **Knowledge bundle** — the `development/` directory. Everything inside it is a Concept; nothing else belongs there. Its schema and validator live beside each other in `scripts/okf/`, outside the bundle they describe.
+
+- **Concept** — *(noun)* any document in the bundle: a design concept under `design/`, or a phase plan or log under `phase_log/`. A Concept carries YAML front matter and, if it is a phase record, ends with one `## OKF relationships` footer. A plan is not a loose note that happens to live in a folder — it is a node in the project's knowledge graph.
+
+- **Evidence** — audits, triage notes, scratch research, meeting records. Evidence may support a claim but never becomes current-state authority, so it lives *outside* the bundle. The validator refuses strays in `development/` on purpose.
+
+- **Relationship** — a labeled link in a phase record's footer (`Builds on`, `Plan`, `Intended design impact`, `Verified design impact`, …). Relationships are ordinary Markdown links, so they are navigable documentation and graph edges at the same time.
+
 ## Process terms
 
 - **Phase cycle** — the full pipeline a phase runs through, start to finish: new worktree + branch + phase plan → implement → phase log + commit → PR (or branch stack).
