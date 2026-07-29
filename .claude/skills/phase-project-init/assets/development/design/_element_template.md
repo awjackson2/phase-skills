@@ -15,6 +15,10 @@ plan, or a decision record — the phase log holds those. When behavior changes,
 update the concept in the same commit as the phase log that changed it, and
 stamp `Last synced`.
 
+The concept file is its own source of truth. Never create a wrapper document
+that points at it, and never copy its body into another location — a second copy
+is a second thing to keep true, and it will not stay true.
+
 Add the new concept to [`index.md`](index.md).
 
 ```markdown

@@ -1,5 +1,7 @@
 # Local editor settings — personal, not part of the project
 .vscode/
+__pycache__/
+*.pyc
 
 # Real-project reference artifact — kept locally for context, never published
 revere_portal_CLAUDE.md

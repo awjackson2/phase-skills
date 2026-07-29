@@ -4,19 +4,19 @@
     {
       "id": 1,
       "prompt": "I want to add a new response banner: '⏸️ Blocked' — for when a phase is stuck waiting on an external dependency and can't proceed. Add it to the workflow and make sure everything's consistent.",
-      "expected_output": "The new banner is added to templates/response_templates.md (table + a section), phase_project.md's banner list, and CLAUDE.md's banner enumeration + count; the '8 banners' count is bumped to 9 everywhere it appears; a sensible owning skill (likely phase-tracker) references it. No leftover count mismatches. Working skills overridden into .claude/skills and a note to reload.",
+      "expected_output": "The new banner is added canonical-first to templates/response_templates.md (table + section) and phase_project.md, then to its owning root skill. README/count references are updated. CLAUDE.md, AGENTS.md, and AGENT.md remain byte-identical; every changed root skill is copied exactly to .agents/skills; scripts/validate_repo.py and git diff --check pass.",
       "files": []
     },
     {
       "id": 2,
       "prompt": "Change the rule so that the phase index is ordered numerically (by phase number) instead of chronologically. Update all the phase skills to be accurate.",
-      "expected_output": "Every place that states 'bottom = newest / chronological' is updated to numeric ordering: phase-tracker Step 3, phase-recap (Step 1 + nuance), the phase_index.md asset (ordering note + footer), phase_project.md, CLAUDE.md invariant. The change is applied canonical-first and verified with a grep for the old wording. phase-recap's derived logic that depended on 'bottom = newest' is reconciled.",
+      "expected_output": "Every place that states 'bottom = newest / chronological' is updated: TERMINOLOGY.md if applicable, phase-tracker Step 3, phase-recap's procedure and derived logic, the phase_index.md asset, phase_project.md, and public docs. Root skills and .agents/skills mirrors remain byte-identical, all three agent guides remain byte-identical, and validation proves the old rule is gone.",
       "files": []
     },
     {
       "id": 3,
-      "prompt": "Update the terminology: rename 'Patch' to 'Task' everywhere (so it's Major / Minor / Task now). Keep everything consistent across the skills, the charter, and the memory.",
-      "expected_output": "Patch → Task across TERMINOLOGY.md (hierarchy, core terms, appendability examples), all seven skills' embedded copies, response_templates.md, phase_project.md, CLAUDE.md, the template asset headers, and the appendability memory. The capitalization rule and file-naming examples updated. revere_portal_CLAUDE.md left untouched. Grep for 'Patch' returns zero hits outside the reference artifact.",
+      "prompt": "Update the terminology: rename 'Patch' to 'Task' everywhere (so it's Major / Minor / Task now). Keep everything consistent across the skills, charter, OKF templates, and agent mirrors.",
+      "expected_output": "Patch → Task across TERMINOLOGY.md, OKF.md, every affected root skill, response and recap templates, phase_project.md, init assets, README, and evals. Capitalization, numbering, branch/worktree rules, filenames, metadata examples, and relationship examples remain coherent. Root skills are copied exactly to .agents/skills, the three agent guides remain exact, and validation plus a repository search finds no unintended old terminology.",
       "files": []
     }
   ]
