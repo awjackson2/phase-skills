@@ -78,14 +78,11 @@ def validate_skill(skill: str, errors: list[str]) -> None:
         f"{skill}: missing trigger description",
         errors,
     )
-    # NOTE: an earlier draft of this branch also renamed `.claude/worktrees/`
-    # to a provider-neutral `.worktrees/` and asserted it here. That rename is a
-    # convention change rather than an additive one, so it was deferred out of
-    # this branch. Re-enable this check in the same change that performs the
-    # rename across the suite (see phase-amend's sync surface):
-    #
-    #     require(".claude/worktrees" not in text,
-    #             f"{skill}: provider-specific worktree path remains", errors)
+    require(
+        ".claude/worktrees" not in text,
+        f"{skill}: provider-specific worktree path remains",
+        errors,
+    )
 
 
 def validate_phase_template(
@@ -238,9 +235,9 @@ def main() -> int:
     for expected in (
         "## OKF relationships",
         "## Agent signatures",
+        ".worktrees/",
         # "history_origin: born-native" — migration-era field; not part of the
         #   generic contract, which has no legacy history to protect.
-        # ".worktrees/" — deferred provider-neutral rename; see validate_skill.
     ):
         require(expected in charter, f"phase_project.md missing {expected}", errors)
 

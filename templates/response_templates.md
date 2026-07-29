@@ -50,7 +50,7 @@ The nine types:
 ```
 ### 🟩 DEVELOPMENT APPROVAL · Phase <NUM> — <name>
 
-**Plan:** confirmed ✓   **Branch:** phase-<MAJOR.MINOR>-<slug>   **Worktree:** .claude/worktrees/phase-<MAJOR.MINOR>-<slug>
+**Plan:** confirmed ✓   **Branch:** phase-<MAJOR.MINOR>-<slug>   **Worktree:** .worktrees/phase-<MAJOR.MINOR>-<slug>
 
 **About to build:**
 - <deliverable 1>

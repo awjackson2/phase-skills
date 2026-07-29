@@ -62,7 +62,7 @@ Each iteration re-grounds itself so it is resumable across turns and fresh sessi
 
 1. **Recap.** Run `phase-recap` (scoped to the Major) to reload current state. Do not trust stale context from a previous iteration. Derive remaining work by diffing the umbrella roadmap against `phase_index.md` — the index is the source of truth for what has shipped, not the checklist boxes.
 2. **Pick the next phase.** The first roadmap item not yet in the index, or an unfinished partial phase. Determine its number (Minor vs Patch) per `phase-tracker` numbering.
-3. **Run the phase cycle** via `phase-tracker`: cut the branch + worktree under `.claude/worktrees/` (new Minor) or continue on the Minor's branch (Patch) → write the plan → (gates per cadence) → implement → run scoped tests → write the log → append to the index → sync design docs → commit → open the PR (or stack — see branch strategy).
+3. **Run the phase cycle** via `phase-tracker`: cut the branch + worktree under `.worktrees/` (new Minor) or continue on the Minor's branch (Patch) → write the plan → (gates per cadence) → implement → run scoped tests → write the log → append to the index → sync design docs → commit → open the PR (or stack — see branch strategy).
 4. **Record progress.** The phase's index entry (written by `phase-tracker`) is what marks it done. Refresh the umbrella checkbox only opportunistically — batched with a Minor merge or at the effort's end — never as a separate per-phase commit on the default branch.
 5. **Emit loop progress** and decide (the `<done>/<total>` count comes from the index, not the boxes):
 

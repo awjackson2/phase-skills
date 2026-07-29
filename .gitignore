@@ -1,5 +1,6 @@
 # Local editor settings — personal, not part of the project
 .vscode/
+.worktrees/
 __pycache__/
 *.pyc
 

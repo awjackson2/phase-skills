@@ -50,7 +50,7 @@ This is *why* the numbering clusters by theme (see Step 1 of `phase-tracker`): k
 
 - **Phase cycle** — the full pipeline a phase runs through, start to finish: new worktree + branch + phase plan → implement → phase log + commit → PR (or branch stack).
 
-- **Start the phase** — begin the **entire** phase process, not a single step: determine the number → cut the branch → create the worktree under `.claude/worktrees/` → enter them → write the plan → get approval → implement → summarize → write the log → sync docs → commit → PR. When the user says "start the phase," run the whole opening sequence.
+- **Start the phase** — begin the **entire** phase process, not a single step: determine the number → cut the branch → create the worktree under `.worktrees/` → enter them → write the plan → get approval → implement → summarize → write the log → sync docs → commit → PR. When the user says "start the phase," run the whole opening sequence.
 
 - **Close the phase** — complete the **entire** closing process, not a single step: summarize the work → get confirmation → write the log → sync design docs → update the index → commit → open the PR. When the user says "close the phase," run the whole closing sequence.
 

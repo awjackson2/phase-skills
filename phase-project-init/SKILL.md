@@ -29,7 +29,7 @@ Confirm the directory to initialize and that it is meant to be a new phase-workf
 ### Step 2: Initialize git
 
 - If not already a repo, `git init` and set the default branch (`git branch -M main` or the chosen name).
-- Create a `.gitignore` if none exists — minimal and appropriate to the stack the user names (don't guess heavily; a near-empty `.gitignore` is fine to start). Include `.claude/worktrees/` — every phase worktree is created there and must never be tracked by the primary checkout.
+- Create a `.gitignore` if none exists — minimal and appropriate to the stack the user names (don't guess heavily; a near-empty `.gitignore` is fine to start). Include `.worktrees/` — every phase worktree is created there and must never be tracked by the primary checkout.
 - Note the **branch-protection convention** to the user: the default branch is protected by policy — all later changes reach it only through PRs. Local git can't enforce this; if a remote exists, suggest enabling branch protection there. Record it as a rule, not an enforced setting.
 
 ### Step 3: Create the knowledge bundle
@@ -94,7 +94,7 @@ End with the `Co-Authored-By:` trailer. This is the only sanctioned direct-to-de
 
 Determine the first unit of work with the user and route to the right skill:
 
-- **One concrete effort** → `phase-tracker`, starting at `1.1.0` (the first Minor of Major 1). Cut the branch + worktree (under `.claude/worktrees/`) and write the plan.
+- **One concrete effort** → `phase-tracker`, starting at `1.1.0` (the first Minor of Major 1). Cut the branch + worktree (under `.worktrees/`) and write the plan.
 - **A large multi-step plan / umbrella** → `phase-decompose` to chunk it into a quality roadmap, then `phase-loop` to run the cycles until complete. The umbrella/roadmap plan is `1.0.0` (`MAJOR.0.0`).
 
 Numbering starts at Major 1. Reserve `MAJOR.0.0` for a Major's umbrella/roadmap plan; the first real feature is `1.1.0`.

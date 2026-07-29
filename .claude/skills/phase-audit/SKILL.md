@@ -31,7 +31,7 @@ Run these against `development/phase_log/` and git. Order findings most-severe f
 7. **Umbrella vs index.** For any `MAJOR.0.0` umbrella, roadmap items checked off but absent from the index, or shipped (in the index) but still unchecked. (Unchecked-but-shipped is low severity — the checklist is advisory per `phase-loop`.)
 
 **Git hygiene (medium severity — leftovers):**
-8. **Dangling worktrees.** `git worktree list` entries for phases that have already merged/wrapped. Phase worktrees live under `.claude/worktrees/`; also flag any phase worktree created **outside** that directory as a convention violation.
+8. **Dangling worktrees.** `git worktree list` entries for phases that have already merged/wrapped. Phase worktrees live under `.worktrees/`; also flag any phase worktree created **outside** that directory as a convention violation. One exception worth stating rather than flagging repeatedly: a project set up before the provider-neutral rename may still keep its worktrees under the older agent-specific directory. That is a superseded convention, not drift — report it **once**, offer to move the directory and update the project's `.gitignore`, and do not re-raise it per worktree.
 9. **Stale phase branches.** `phase-*` branches already merged into the default branch and never deleted, or a `phase-*` branch with no corresponding plan file.
 10. **Uncommitted phase work.** A dirty working tree inside a phase worktree (work that should be committed or stashed).
 

@@ -91,7 +91,7 @@ Use this mode at the **start** of a phase, before writing code.
 
 > **Plan before code — always, no exceptions.** The `phase_<NUM>_plan.md` file must be written (and confirmed) before any implementation code is touched — even when an umbrella/roadmap plan already enumerates the work. Each concrete phase gets its own plan file *first*. Never implement and backfill the plan afterward; if you catch yourself coding without a plan file, stop and write it.
 
-> **Branch and worktree before plan.** Before writing the plan, cut the phase branch and create its local worktree **under `.claude/worktrees/<branch-name>` (never anywhere else)**, then move into them. The plan file is written inside the worktree, not the primary checkout.
+> **Branch and worktree before plan.** Before writing the plan, cut the phase branch and create its local worktree **under `.worktrees/<branch-name>` (never anywhere else)**, then move into them. The plan file is written inside the worktree, not the primary checkout.
 
 **Model tip (optional).** Planning benefits from stronger reasoning; implementation doesn't need it. This is a natural point to switch to a stronger-reasoning model — e.g. `/model opus` — for drafting the plan. Claude can't switch models on its own, so do it yourself if you want it; nothing below depends on it. Switch back before implementation starts (see Step 5).
 
@@ -143,7 +143,7 @@ Once the plan is confirmed, get the explicit go-ahead to implement:
 ```
 ### 🟩 DEVELOPMENT APPROVAL · Phase <NUM> — <name>
 
-**Plan:** confirmed ✓   **Branch:** phase-<MAJOR.MINOR>-<slug>   **Worktree:** .claude/worktrees/phase-<MAJOR.MINOR>-<slug>
+**Plan:** confirmed ✓   **Branch:** phase-<MAJOR.MINOR>-<slug>   **Worktree:** .worktrees/phase-<MAJOR.MINOR>-<slug>
 **About to build:**
 - <deliverable 1>
 - <deliverable 2>
@@ -250,7 +250,7 @@ For a **corrective change**, decide first whether it is a **Patch** on the curre
 These make the phase cycle safe and revertable. The skill is self-contained — it does not depend on a separate rules file in the project.
 
 - **Never develop on the default branch.** It is protected; every change reaches it only through a merged PR.
-- **Cut a `phase-<MAJOR.MINOR>-slug` branch from an up-to-date default branch** at phase start, and create a dedicated worktree for it **under `.claude/worktrees/<branch-name>` — never anywhere else**. Keep `.claude/worktrees/` gitignored so the checkouts never pollute the primary working tree. Do all development inside that worktree.
+- **Cut a `phase-<MAJOR.MINOR>-slug` branch from an up-to-date default branch** at phase start, and create a dedicated worktree for it **under `.worktrees/<branch-name>` — never anywhere else**. Keep `.worktrees/` gitignored so the checkouts never pollute the primary working tree. Do all development inside that worktree.
 - One branch / worktree / PR per **Minor**. **Patches** are commits on that same branch — never separate branches, worktrees, or PRs.
 - Commit with explicit reviewed file lists (never `git add -A`), a `Phase X.Y.Z:` message, and a `Co-Authored-By:` trailer.
 - After committing, pull/rebase onto the latest default branch and resolve conflicts; re-run affected scoped tests if new code merged in.
