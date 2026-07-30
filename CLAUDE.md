@@ -34,7 +34,7 @@ Seven skills, each a directory with a `SKILL.md`:
 
 Plus one **maintenance skill** that is *not* shipped into other projects — it operates on this repo only:
 
-Every shipped skill has an exact ChatGPT/Codex mirror at `.agents/skills/<name>/`, including `phase-amend` and all init assets. Edit the root copy, then refresh the mirror mechanically — never hand-edit one side. `scripts/validate_repo.py` proves both trees and the three agent guides are byte-identical, and runs in CI on every pull request:
+Every shipped skill is mirrored byte-for-byte, whole-directory, into two places — including `phase-amend` and all init assets: `.agents/skills/<name>/` (the ChatGPT/Codex export) and `.claude/skills/<name>/` (the copies this repository's own agent runtime loads, so working here exercises the current skills). Edit the root copy, then refresh both mirrors mechanically — never hand-edit one side. `scripts/validate_repo.py` proves all three trees and the three agent guides are byte-identical, and runs in CI on every pull request:
 
 ```bash
 python3 scripts/validate_repo.py
@@ -75,9 +75,19 @@ health:  phase-audit (verify the log + git state anytime)
 - **Producers/consumers of phase state:** `phase-tracker` writes plan/log/index; `phase-recap` and `phase-audit` read them; `phase-decompose` writes the umbrella; `phase-loop` calls recap + tracker in a loop. init/adopt create the structure they all use.
 - Three skills write into `development/phase_log/` (tracker, decompose, and audit's fixes); the rest read. All writes except init's one bootstrap commit go through a branch + PR.
 
+## Versioning
+
+The suite ships one version for all eight skills; there are no independent per-skill versions. `VERSIONING.md` is canonical. The essentials:
+
+- The suite version is SemVer and is **separate from phase numbers**, which happen to share the `MAJOR.MINOR.PATCH` shape. A phase number is never a version, and the suite version never appears in a phase plan, log, or index.
+- MAJOR breaks a convention that existing `development/` bundles depend on (front matter, numbering grammar, what `manage_bundle.py` accepts); MINOR adds backward-compatible capability; PATCH changes no convention. When a change is arguably MINOR or MAJOR, choose MAJOR.
+- The version lives in exactly four places, which must agree: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, every `SKILL.md` frontmatter, and the newest release heading in `CHANGELOG.md`. `scripts/validate_repo.py` enforces this.
+- Record every notable change under `CHANGELOG.md`'s `Unreleased` heading as you make it, not at release time.
+- Tags are annotated, prefixed `v`, and cut only from a commit reachable from `main` after the release PR merges. Never tag an unmerged branch tip.
+
 ## Working conventions for editing these skills
 
-- Each skill is a single `SKILL.md` with YAML frontmatter (`name`, `description`). The `description` is the trigger contract — it is how Claude decides to invoke the skill, so it must enumerate the situations and trigger phrases precisely.
+- Each skill is a single `SKILL.md` with YAML frontmatter (`name`, `version`, `description`). The `description` is the trigger contract — it is how Claude decides to invoke the skill, so it must enumerate the situations and trigger phrases precisely. The `version` is the shared suite version, identical in every skill (see **Versioning** below).
 - Keep all skills in sync when you change shared conventions, and keep every skill consistent with the same phase-number grammar, capitalization (Major/Minor/Patch), chronological index ordering, response banners, and "phase cycle" terminology.
 - Reference paths the skill establishes (`development/phase_log/`, the templates) generically; don't tie examples to a specific domain, language, or test runner.
 - **Duplication note:** the canonical conventions live at root (`TERMINOLOGY.md`, `templates/`). Each skill embeds the conventions it needs inline so it stays self-contained when dropped into a project alone; `phase-project-init/assets/` carries copies of the phase-log templates it installs. When you change a convention at root, update the embedded copies in the skills and assets to match.

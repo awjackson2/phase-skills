@@ -1,5 +1,6 @@
 ---
 name: phase-audit
+version: 1.1.0
 description: Use to check the integrity of the phase log and the workflow's git state. Trigger when the user asks to "audit the phases", "check the phase log", "is the phase log healthy", "phase doctor", "validate the phases", "any drift?", or before relying on the log for a release or a recap. Reports drift between plans, logs, the index, design docs, and git (missing logs, broken index links, dangling worktrees, stale design-doc sync, numbering gaps), most-severe first, then offers to fix what's safely fixable via a docs-lane PR. Read-only by default.
 ---
 

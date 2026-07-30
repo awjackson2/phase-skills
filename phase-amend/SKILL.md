@@ -1,5 +1,6 @@
 ---
 name: phase-amend
+version: 1.1.0
 description: Use this skill in the phase-skills authoring repo whenever the user wants to change a rule, convention, terminology, or format of the phase workflow and have it stay consistent across the whole suite. Trigger on "change the phase rule", "update the numbering convention", "phases should now…", "update the phase skills to…", "propagate this convention", "add/rename a response banner", "the index should…", "make the skills consistent", or any edit to a shared phase convention — even if the user names only one file. A single convention is duplicated across the canonical docs, all the phase-* skills' embedded copies, the template assets, the portable charter, CLAUDE.md, and a memory; editing one by hand silently drifts the rest. This skill maps every place the convention lives, applies the change everywhere, verifies no drift remains, and overrides the installed .claude/skills copies. Prefer it over hand-editing whenever a change touches a shared rule rather than one skill's private wording.
 ---
 
@@ -29,6 +30,7 @@ Where each shared convention lives. Grep to confirm before editing (files shift 
 | **Plan / log section lists** | `phase-tracker` (Mode 1 Step 3, Mode 2 Step 2), the two template assets |
 | **Scoped-recap scope rules** | `TERMINOLOGY.md` (table), `phase-recap` (Mode B), `templates/recap_template.md`, `CLAUDE.md` |
 | **Knowledge bundle** (`development/` holds only concepts; schema + validator in `scripts/okf/`; evidence outside) | `TERMINOLOGY.md` (Knowledge-bundle terms), `phase-tracker` ("Plans and logs are concepts", Modes 1–2, Step 3.5, commit step), `phase-audit` (checks 11–12), `phase-project-init` (Step 3 + assets), `phase-adopt` (install step), `phase-recap` (front matter over prose), `phase-decompose` / `phase-loop` (the umbrella is a record too), `phase_project.md`, `CLAUDE.md`, **the `development-is-a-knowledge-bundle` memory**, and the asset payload under `phase-project-init/assets/` (`development/**` *and* `scripts/okf/**`) |
+| **Suite version** (one version for all eight skills; SemVer; not a phase number) | `VERSIONING.md` (canonical), `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, every `SKILL.md` frontmatter *and both mirrors of each*, the newest `CHANGELOG.md` heading, `CLAUDE.md` (Versioning section + the frontmatter-keys line), `README.md` (Versioning section) |
 | **Concept contract** (front-matter fields, footer labels, pair-status rule) | `scripts/okf/profile.md` **and** `scripts/okf/manage_bundle.py` in the assets — these two must change together, since a rule that lives only in prose is a rule that drifts — plus the two phase template assets and `phase-tracker` |
 
 Two locations are easy to forget because they aren't plain repo `.md` files:
@@ -68,18 +70,26 @@ Prove the change landed everywhere and the old form is gone:
   - Phase-number grammar and examples identical across `TERMINOLOGY.md`, `phase-tracker`, `phase_project.md`, `CLAUDE.md`.
   - Appendability present in `TERMINOLOGY.md`, `phase-audit`, `phase-decompose`, the memory, `CLAUDE.md`.
   - Index "bottom = newest" wording consistent across `phase-tracker`, `phase-recap`, the `phase_index.md` asset, `phase_project.md`, `CLAUDE.md`.
+  - Every `SKILL.md` carries the same suite version, matching `plugin.json`, `marketplace.json`, and the newest `CHANGELOG.md` heading.
+- Run `python3 scripts/validate_repo.py` — it proves both mirror roots and all four version locations agree.
 - If the change added/removed a skill or banner, re-count **everywhere a count is stated in prose** — e.g. the "…labeled response modes" line and the "…skills" line in `CLAUDE.md` and the template headers. These spelled-out numbers are the most common drift: they read fine in isolation but silently contradict the list they head.
 
-### 5. Override the installed copies
+### 5. Refresh both mirror roots
 
-The harness loads `.claude/skills/<name>/`, not the working dirs. Push the changed working skills in and reload:
+The root `phase-*/` dirs are the source of truth. Two mirrors must match them byte-for-byte, whole-directory: `.agents/skills/<name>/` (the ChatGPT/Codex export) and `.claude/skills/<name>/` (what the harness actually loads here — edits to root do nothing until this copy is overridden). Refresh both from the repo root:
 
 ```bash
-cd /home/aksel/Documents/phase_skills
-for s in <changed-skill-dirs>; do rm -rf ".claude/skills/$s" && cp -R "$s" ".claude/skills/$s"; done
+for s in <changed-skill-dirs>; do
+  rm -rf ".agents/skills/$s" && cp -R "$s" ".agents/skills/$s"
+  rm -rf ".claude/skills/$s" && cp -R "$s" ".claude/skills/$s"
+done
 ```
 
-Then run `/reload-skills`. (Only the skills you changed need overriding; canonical docs and the charter aren't loaded as skills.)
+Then run `/reload-skills`. (Only the skills you changed need refreshing; canonical docs and the charter aren't loaded as skills.)
+
+### 5b. Version the change if it moves a convention
+
+If the change alters a convention installed projects depend on, follow `VERSIONING.md`: record it under `CHANGELOG.md`'s `Unreleased` heading, and if you are cutting a release, bump `plugin.json`, `marketplace.json`, and every `SKILL.md` frontmatter together. A convention edit with no changelog line is how a release note goes missing.
 
 ### 6. Report
 
