@@ -1,0 +1,65 @@
+# Changelog
+
+All notable changes to this suite are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the suite follows
+[Semantic Versioning](https://semver.org/spec/v2.0.0.html) as interpreted in
+[`VERSIONING.md`](VERSIONING.md).
+
+The suite ships one version for all eight skills. Phase numbers used inside
+projects are a separate numbering system and never appear here.
+
+## [Unreleased]
+
+## [1.1.0] — 2026-07-30
+
+### Added
+
+- `development/` is now a **knowledge bundle**: everything inside it is a
+  Concept with YAML front matter, and phase records end with one
+  `## OKF relationships` footer. Evidence such as audits and scratch notes
+  stays outside the bundle.
+- `scripts/okf/manage_bundle.py` — a stdlib-only validator, so it runs in a
+  project that has installed nothing — plus the contract it enforces in
+  `scripts/okf/profile.md`. Both ship as `phase-project-init` assets.
+- `OKF.md` — the canonical concept, relationship, and attribution profile.
+- Exact ChatGPT/Codex skill mirrors under `.agents/skills/` for all eight
+  skills, and matching exact copies under `.claude/skills/`.
+- `AGENTS.md` and `AGENT.md` as byte-for-byte mirrors of `CLAUDE.md`.
+- Agent-attribution conventions: per-agent `Co-Authored-By` commit trailers and
+  an `## Agent signatures` PR section, with a repository PR template matching
+  the one installed into projects.
+- `scripts/validate_repo.py` and a CI workflow enforcing mirror equality,
+  scaffold completeness, and template invariants.
+- Release versioning: this changelog, [`VERSIONING.md`](VERSIONING.md), a
+  `version` key in every skill's frontmatter, and validation that the plugin
+  manifests, skill frontmatter, and changelog all agree.
+
+### Changed
+
+- Skills and guides are agent-neutral. Provider names appear only where a real
+  interface or a stable attribution identity is discussed.
+- Local phase worktrees moved from a provider-specific path to `.worktrees/`.
+- `phase-tracker` authors records that conform to the bundle contract,
+  `phase-audit` runs the validator, and `phase-recap` reads front matter
+  instead of parsing prose.
+- `phase-amend`'s sync surface records the knowledge-bundle convention, both
+  mirror roots, and the versioning locations.
+
+## [1.0.0] — 2026-07-02
+
+### Added
+
+- Initial public release of the phase-driven development workflow.
+- Seven shipped skills: `phase-tracker`, `phase-recap`, `phase-decompose`,
+  `phase-loop`, `phase-project-init`, `phase-adopt`, `phase-audit`, plus the
+  `phase-amend` repository-maintenance skill.
+- Canonical conventions: `TERMINOLOGY.md`, `templates/recap_template.md`,
+  `templates/response_templates.md`, and the portable `phase_project.md`
+  charter.
+- Packaging for skill directories and the Claude Code plugin marketplace via
+  `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
+- MIT license and README covering both install routes.
+
+[Unreleased]: https://github.com/awjackson2/phase-skills/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/awjackson2/phase-skills/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/awjackson2/phase-skills/releases/tag/v1.0.0

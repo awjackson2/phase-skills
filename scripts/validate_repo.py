@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 
@@ -20,6 +21,10 @@ SKILLS = (
 )
 SHIPPED_SKILLS = SKILLS[:-1]
 ASSETS = ROOT / "phase-project-init" / "assets" / "development"
+# Mirror roots that must be byte-exact copies of the root skill directories:
+# the ChatGPT/Codex export, and the copies this repo's own agent runtime loads.
+MIRRORS = (".agents", ".claude")
+SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 
 
 def require(condition: bool, message: str, errors: list[str]) -> None:
@@ -27,46 +32,57 @@ def require(condition: bool, message: str, errors: list[str]) -> None:
         errors.append(message)
 
 
-def validate_skill(skill: str, errors: list[str]) -> None:
-    source_dir = ROOT / skill
-    mirror_dir = ROOT / ".agents" / "skills" / skill
-    source = source_dir / "SKILL.md"
+def frontmatter(text: str) -> str:
+    """Return the YAML frontmatter block, or an empty string if absent."""
+    if not text.startswith("---\n"):
+        return ""
+    end = text.find("\n---\n", 3)
+    return text[4:end] if end != -1 else ""
+
+
+def skill_files(directory: Path) -> set[Path]:
+    return {
+        path.relative_to(directory)
+        for path in directory.rglob("*")
+        if path.is_file() and "__pycache__" not in path.parts
+    }
+
+
+def validate_mirror(skill: str, source_dir: Path, label: str, errors: list[str]) -> None:
+    """One mirror root must be a byte-exact copy of the root skill directory."""
+    mirror_dir = ROOT / label / "skills" / skill
     mirror = mirror_dir / "SKILL.md"
-    require(source.is_file(), f"{source.relative_to(ROOT)} is missing", errors)
     require(mirror.is_file(), f"{mirror.relative_to(ROOT)} is missing", errors)
-    if not source.is_file() or not mirror.is_file():
+    if not mirror.is_file():
         return
 
-    source_files = {
-        path.relative_to(source_dir)
-        for path in source_dir.rglob("*")
-        if path.is_file() and "__pycache__" not in path.parts
-    }
-    mirror_files = {
-        path.relative_to(mirror_dir)
-        for path in mirror_dir.rglob("*")
-        if path.is_file() and "__pycache__" not in path.parts
-    }
+    source_files = skill_files(source_dir)
+    mirror_files = skill_files(mirror_dir)
     require(
         source_files == mirror_files,
-        f"{skill}: root and .agents file trees differ",
+        f"{skill}: root and {label} file trees differ",
         errors,
     )
     for relative in sorted(source_files & mirror_files):
         require(
             (source_dir / relative).read_bytes()
             == (mirror_dir / relative).read_bytes(),
-            f"{skill}: mirror differs at {relative}",
+            f"{skill}: {label} mirror differs at {relative}",
             errors,
         )
 
-    source_bytes = source.read_bytes()
-    require(
-        source_bytes == mirror.read_bytes(),
-        f"{skill}: root and .agents skill mirrors differ",
-        errors,
-    )
-    text = source_bytes.decode("utf-8")
+
+def validate_skill(skill: str, version: str | None, errors: list[str]) -> None:
+    source_dir = ROOT / skill
+    source = source_dir / "SKILL.md"
+    require(source.is_file(), f"{source.relative_to(ROOT)} is missing", errors)
+    if not source.is_file():
+        return
+
+    for label in MIRRORS:
+        validate_mirror(skill, source_dir, label, errors)
+
+    text = source.read_text(encoding="utf-8")
     require(text.startswith("---\n"), f"{skill}: missing YAML frontmatter", errors)
     require(
         f"\nname: {skill}\n" in text,
@@ -78,6 +94,12 @@ def validate_skill(skill: str, errors: list[str]) -> None:
         f"{skill}: missing trigger description",
         errors,
     )
+    if version is not None:
+        require(
+            f"\nversion: {version}\n" in f"\n{frontmatter(text)}\n",
+            f"{skill}: frontmatter version is not {version} (the suite version)",
+            errors,
+        )
     require(
         ".claude/worktrees" not in text,
         f"{skill}: provider-specific worktree path remains",
@@ -115,11 +137,61 @@ def validate_phase_template(
     )
 
 
+def validate_versioning(version: str | None, errors: list[str]) -> None:
+    """The suite version must agree across the manifests and the changelog."""
+    require(
+        version is not None and bool(SEMVER.match(version)),
+        "plugin.json version is missing or is not MAJOR.MINOR.PATCH",
+        errors,
+    )
+
+    marketplace_path = ROOT / ".claude-plugin" / "marketplace.json"
+    if marketplace_path.is_file():
+        marketplace = json.loads(marketplace_path.read_text(encoding="utf-8"))
+        listed = {
+            entry.get("name"): entry.get("version")
+            for entry in marketplace.get("plugins", [])
+        }
+        require(
+            listed.get("phase-workflow") == version,
+            "marketplace.json phase-workflow version differs from plugin.json",
+            errors,
+        )
+    else:
+        errors.append(".claude-plugin/marketplace.json is missing")
+
+    require((ROOT / "VERSIONING.md").is_file(), "VERSIONING.md is missing", errors)
+
+    changelog = ROOT / "CHANGELOG.md"
+    require(changelog.is_file(), "CHANGELOG.md is missing", errors)
+    if changelog.is_file() and version is not None:
+        text = changelog.read_text(encoding="utf-8")
+        require(
+            "## [Unreleased]" in text,
+            "CHANGELOG.md has no Unreleased section",
+            errors,
+        )
+        released = re.findall(r"^## \[(\d+\.\d+\.\d+)\]", text, flags=re.MULTILINE)
+        require(
+            bool(released) and released[0] == version,
+            f"CHANGELOG.md's newest release heading is not [{version}]",
+            errors,
+        )
+
+
 def main() -> int:
     errors: list[str] = []
 
+    plugin_path = ROOT / ".claude-plugin" / "plugin.json"
+    plugin = json.loads(plugin_path.read_text(encoding="utf-8"))
+    version = plugin.get("version")
+    if not isinstance(version, str) or not SEMVER.match(version):
+        version = None
+
+    validate_versioning(version, errors)
+
     for skill in SKILLS:
-        validate_skill(skill, errors)
+        validate_skill(skill, version, errors)
 
     guide = ROOT / "CLAUDE.md"
     for mirror_name in ("AGENTS.md", "AGENT.md"):
@@ -219,8 +291,6 @@ def main() -> int:
             errors,
         )
 
-    plugin_path = ROOT / ".claude-plugin" / "plugin.json"
-    plugin = json.loads(plugin_path.read_text(encoding="utf-8"))
     plugin_skills = tuple(
         str(value).removeprefix("./") for value in plugin.get("skills", [])
     )
@@ -247,7 +317,8 @@ def main() -> int:
 
     print(
         "Phase skills validation passed: "
-        f"{len(SKILLS)} exact skill mirrors, 3 exact agent guides, "
+        f"{len(SKILLS)} skills at version {version} across "
+        f"{len(MIRRORS)} exact mirror roots, 3 exact agent guides, "
         f"{len(required_assets) + 1} scaffold files"
     )
     return 0

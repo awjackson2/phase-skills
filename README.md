@@ -6,6 +6,7 @@
 
 Plan-before-code gates · per-phase tracking · worktree discipline · decomposition · looped execution · audit
 
+[![Version](https://img.shields.io/github/v/tag/awjackson2/phase-skills?label=version&color=brightgreen)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-7-blue)](#the-skills)
 [![SKILL.md](https://img.shields.io/badge/format-SKILL.md-orange)](https://code.claude.com/docs/en/skills)
 [![Agents](https://img.shields.io/badge/works%20with-Claude%20%2B%20Codex-6f42c1)](#installation)
@@ -143,14 +144,55 @@ active agent is asking for:
 
 🟦 `PLAN CONFIRMATION` · 🟩 `DEVELOPMENT APPROVAL` · 🏁 `PHASE DONE` · 🔧 `FIX` · ❓ `OUTSIDE QUESTION` · 💬 `TANGENT` · 🔁 `PHASE LOOP` · 🧭 `PHASE RECAP` · 🩺 `PHASE AUDIT`
 
+## Versioning
+
+The suite ships as one unit under one version. Every skill in a release carries
+that same version in its `SKILL.md` frontmatter:
+
+```yaml
+---
+name: phase-tracker
+version: 1.1.0
+description: ...
+---
+```
+
+so you can tell at a glance which release an installed skill came from, and be
+sure the skills you installed together agree on their conventions.
+
+Releases follow [Semantic Versioning](https://semver.org), read against the
+conventions your project depends on:
+
+- **MAJOR** — a breaking convention change; an existing `development/` bundle
+  would need migration.
+- **MINOR** — new skills or capabilities, backward compatible.
+- **PATCH** — corrections that change no convention.
+
+To pin a release, check out its tag:
+
+```bash
+git clone --branch v1.1.0 https://github.com/awjackson2/phase-skills.git
+```
+
+See [`CHANGELOG.md`](CHANGELOG.md) for what changed in each release and
+[`VERSIONING.md`](VERSIONING.md) for the full policy.
+
+> The suite version and your project's phase numbers are different numbering
+> systems that happen to share the `MAJOR.MINOR.PATCH` shape. A phase number is
+> never a version.
+
 ## Repository layout
 
 ```
+phase-<name>/                Claude plugin sources, the source of truth
+                             (+ phase-amend maintenance)
 .agents/skills/phase-*/      exact ChatGPT/Codex mirrors
-phase-<name>/SKILL.md        Claude plugin sources (+ phase-amend maintenance)
+.claude/skills/phase-*/      exact copies this repo's own agent runtime loads
 phase-project-init/assets/   complete OKF + PR scaffold installed into projects
 TERMINOLOGY.md               canonical glossary (Major/Minor/Patch, recap scoping, core principles)
 OKF.md                       direct-concept + relationship + attribution profile
+VERSIONING.md                canonical release-versioning and tagging policy
+CHANGELOG.md                 what changed in each release
 templates/                   recap + response-banner formats
 phase_project.md             portable agent-neutral workflow charter
 CLAUDE.md / AGENTS.md / AGENT.md
