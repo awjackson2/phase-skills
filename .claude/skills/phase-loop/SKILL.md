@@ -46,7 +46,7 @@ State the chosen cadence at the start so the user knows when to expect a pause.
 
 1. **Recap first.** Run `phase-recap` (ambient) so numbering and existing work are known. Pick the effort's Major (next free Major for a new milestone, or an existing one the user names).
 2. **Chunk the plan with `phase-decompose`.** Defer to that skill to break the goal into tiny, independently-testable Minors (and Patches) against its quality bar — dependency-ordered, risk-tagged, right-sized, with numbering room left to append. It produces the umbrella; do not improvise the chunking here.
-3. **The umbrella plan** lives at `development/phase_log/phase_<MAJOR>.0.0_plan.md` with the roadmap checklist, authored on a `docs/<major>-umbrella` branch (by `phase-decompose`). It is a phase record like any other — front matter and a `## OKF relationships` footer included — so it must validate before its docs-lane PR merges.
+3. **The umbrella plan** lives at `development/phase_log/phase_<MAJOR>.0.0_plan.md` with the roadmap checklist, authored on a `docs/<major>-umbrella` branch (by `phase-decompose`). It is a phase record like any other — complete front matter and a `## OKF relationships` footer included — check that shape before its docs-lane PR merges.
 4. **Confirm the umbrella with the user** (🟦 on the umbrella), confirm the cadence and the branch strategy (below), then **merge the umbrella to the default branch** (docs-lane PR) so every phase branch starts from the approved roadmap. This is the single big approval for autonomous mode.
 5. **Enter the loop** (below).
 
@@ -85,6 +85,8 @@ Confirm one at the start:
 
 - **PR per Minor** *(default)* — each Minor opens and merges its own PR (per `phase-tracker`). Best when features are independent and can deploy as they land.
 - **Stacked effort** — cut each Minor's branch from the previous Minor's tip and open one consolidated PR at the end (per `phase-tracker`'s "Stacked multi-phase efforts"). Best when the Minors build on each other and should land as a unit.
+
+In a project that declined git (an option at `phase-project-init`) there is no branch strategy to pick: every git step of the cycle is skipped and the loop simply runs plan → implement → log + index per phase, with the umbrella written as a plain file.
 
 ## Failure handling
 

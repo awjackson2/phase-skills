@@ -10,6 +10,26 @@ projects are a separate numbering system and never appear here.
 
 ## [Unreleased]
 
+### Changed
+
+- **Git is optional.** `phase-project-init` now asks whether the project should
+  use git instead of assuming it; declining skips every branch / worktree /
+  commit / PR step while plans, logs, and the index work unchanged. Adding git
+  later is a documented one-step upgrade. `phase-tracker`, `phase-audit`,
+  `phase-loop`, `phase-adopt`, the charter, and `TERMINOLOGY.md` carry the rule.
+- The OKF format is no longer packaged separately. The `development/` bundle
+  keeps its shape — YAML front matter on every concept, one
+  `## OKF relationships` footer per phase record, evidence outside — but the
+  phase templates are now the contract, and the agent upholds it:
+  `phase-tracker` re-checks records before closing a phase, and `phase-audit`
+  check 11 is a manual read-through.
+
+### Removed
+
+- `OKF.md`, the shipped `scripts/okf/manage_bundle.py` validator and
+  `scripts/okf/profile.md` schema, and the `.okfignore` boundary file.
+  `scripts/validate_repo.py` now fails if any of them reappear.
+
 ## [1.1.0] — 2026-07-30
 
 ### Added

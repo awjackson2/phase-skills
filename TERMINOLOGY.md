@@ -38,17 +38,17 @@ This is *why* the numbering clusters by theme (see Step 1 of `phase-tracker`): k
 
 ## Knowledge-bundle terms
 
-- **Knowledge bundle** — the `development/` directory. Everything inside it is a Concept; nothing else belongs there. Its schema and validator live beside each other in `scripts/okf/`, outside the bundle they describe.
+- **Knowledge bundle** — the `development/` directory. Everything inside it is a Concept; nothing else belongs there. The format (front matter + relationship footers) is a convention the templates carry and the agent upholds — there is no separate schema file or validator tool.
 
 - **Concept** — *(noun)* any document in the bundle: a design concept under `design/`, or a phase plan or log under `phase_log/`. A Concept carries YAML front matter and, if it is a phase record, ends with one `## OKF relationships` footer. A plan is not a loose note that happens to live in a folder — it is a node in the project's knowledge graph.
 
-- **Evidence** — audits, triage notes, scratch research, meeting records. Evidence may support a claim but never becomes current-state authority, so it lives *outside* the bundle. The validator refuses strays in `development/` on purpose.
+- **Evidence** — audits, triage notes, scratch research, meeting records. Evidence may support a claim but never becomes current-state authority, so it lives *outside* the bundle. Keeping strays out of `development/` is deliberate: the directory should explain itself.
 
 - **Relationship** — a labeled link in a phase record's footer (`Builds on`, `Plan`, `Intended design impact`, `Verified design impact`, …). Relationships are ordinary Markdown links, so they are navigable documentation and graph edges at the same time.
 
 ## Process terms
 
-- **Phase cycle** — the full pipeline a phase runs through, start to finish: new worktree + branch + phase plan → implement → phase log + commit → PR (or branch stack).
+- **Phase cycle** — the full pipeline a phase runs through, start to finish: new worktree + branch + phase plan → implement → phase log + commit → PR (or branch stack). Git is optional: in a project that chose not to use git (see `phase-project-init`), the git steps — branch, worktree, commit, PR — are skipped, and the cycle is plan → implement → log + index.
 
 - **Start the phase** — begin the **entire** phase process, not a single step: determine the number → cut the branch → create the worktree under `.worktrees/` → enter them → write the plan → get approval → implement → summarize → write the log → sync docs → commit → PR. When the user says "start the phase," run the whole opening sequence.
 

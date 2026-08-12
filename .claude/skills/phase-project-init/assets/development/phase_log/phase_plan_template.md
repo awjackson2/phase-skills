@@ -20,8 +20,8 @@ comment blocks as you fill the file in. See the phase-tracker skill for the rule
 Replace every placeholder in the front matter, the title, the body, and the
 relationship footer. Keep the metadata keys and their order — the plan is a
 canonical concept in its own right, so never create a wrapper, a copy, or a
-second home for it. The contract is scripts/okf/profile.md; check your work with
-`python3 scripts/okf/manage_bundle.py validate`.
+second home for it. This template is the contract; re-check the front matter and
+the footer before the phase closes.
 -->
 
 # Phase <NUM> — <Short Descriptive Name>
@@ -99,5 +99,3 @@ keyword overlap — link what this work actually touches.
 - Builds on: [Phase A.B.C log](phase_A.B.C_log.md) — <the continuity between that outcome and this plan>
 - Intended design impact:
   - [Design concept](../design/example.md) — <the current-state concept this phase expects to change>
-- Intended knowledge impact:
-  - [Knowledge profile](../../scripts/okf/profile.md) — <the model this phase expects to change>

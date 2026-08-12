@@ -37,14 +37,8 @@ Run these against `development/phase_log/` and git. Order findings most-severe f
 10. **Uncommitted phase work.** A dirty working tree inside a phase worktree (work that should be committed or stashed).
 
 **Bundle contract (high severity — records are malformed):**
-11. **Validator failures.** If the project carries `scripts/okf/manage_bundle.py`, run it first and fold every error into the report:
-
-    ```bash
-    python3 scripts/okf/manage_bundle.py validate
-    ```
-
-    It catches what a human reading one file cannot: front matter that disagrees with a filename, a plan and log whose statuses have drifted apart, a log that never links its plan, a missing impact relationship, a broken footer link, and evidence dropped inside `development/`. Report its output verbatim rather than paraphrasing — the messages name the file and the rule.
-12. **Evidence inside the bundle.** Anything in `development/` that is not `index.md`, `log.md`, `.okfignore`, `design/`, or `phase_log/`. Audits, triage notes, and scratch research belong outside; the bundle holds only concepts.
+11. **Malformed records.** There is no validator tool; this check is a read-through of the phase records against the bundle contract. For each record, verify: front matter present with `phase` equal to the number in the filename; a plan and its log agreeing on `phase`, `phase_status`, and `delivery_status`; exactly one `## OKF relationships` footer; the log linking its plan; at least one impact relationship (*Intended* on a plan, *Verified* on a log); footer links resolving to real files. Name the file and the broken rule for each finding.
+12. **Evidence inside the bundle.** Anything in `development/` that is not `index.md`, `log.md`, `design/`, or `phase_log/`. Audits, triage notes, and scratch research belong outside; the bundle holds only concepts.
 
 **Scaffolding (low severity):**
 13. **Missing templates.** `phase_plan_template.md`, `phase_log_template.md`, or `phase_index.md` absent from `development/phase_log/`.
@@ -52,7 +46,7 @@ Run these against `development/phase_log/` and git. Order findings most-severe f
 
 Use read-only git for 8–10 (`git worktree list`, `git branch --merged`, `git status`). This is the one phase skill that reads git — integrity is its whole job.
 
-A project without the validator is not a failing audit; check 11 simply does not apply. Say so rather than reporting a gap.
+A project that declined git (an option at `phase-project-init`) is not a failing audit; checks 2 and 8–10 simply do not apply. Say so rather than reporting a gap, and audit the phase-log side in full.
 
 ## Report format
 

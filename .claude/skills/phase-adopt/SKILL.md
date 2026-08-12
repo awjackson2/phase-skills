@@ -16,7 +16,7 @@ It is **not a phase** (no plan/log for adopting). It reuses the same templates `
 
 ### Step 1: Survey the repo
 
-Determine: is it a git repo (it should be — if not, the user wants `phase-project-init` instead)? What is the default branch? Is there a `CLAUDE.md`? Is there already a `development/phase_log/`? If the log already exists, **stop** — the project is adopted; run `phase-recap` to load state instead.
+Determine: is it a git repo? (Usually yes for an existing project. If not, ask whether the user wants git — it is optional in this workflow. Without git, skip the docs-lane PR machinery below and land the scaffolding as plain file writes; an empty directory belongs to `phase-project-init` instead.) What is the default branch? Is there a `CLAUDE.md`? Is there already a `development/phase_log/`? If the log already exists, **stop** — the project is adopted; run `phase-recap` to load state instead.
 
 ### Step 2: Decide the numbering origin
 
@@ -40,8 +40,8 @@ If the user wants `phase-recap` to have a baseline on day one, reconstruct a **h
 
 On a fresh `docs/adopt-phase-workflow` branch cut from the up-to-date default branch:
 
-- Install the **knowledge bundle** by copying `phase-project-init/assets/development/` → `development/` and `phase-project-init/assets/scripts/okf/` → `scripts/okf/`. That lands the reserved root files (`index.md`, `log.md`, `.okfignore`), the `design/` layer with its element template, the three phase-log templates, and the stdlib-only validator plus its schema. The seeded index gets the Step 3 backfill (or the empty-with-note form).
-- Run `python3 scripts/okf/manage_bundle.py validate` before opening the PR. On an existing repo this matters more than on a fresh one: if the project already had a `development/` directory holding notes, audits, or tooling, the validator will refuse them, and **that refusal is the finding** — move them out of the bundle rather than loosening the boundary. Say plainly what you moved and why.
+- Install the **knowledge bundle** by copying `phase-project-init/assets/development/` → `development/`. That lands the reserved root files (`index.md`, `log.md`), the `design/` layer with its element template, and the three phase-log templates. The seeded index gets the Step 3 backfill (or the empty-with-note form).
+- Check the bundle boundary before opening the PR. On an existing repo this matters more than on a fresh one: if the project already had a `development/` directory holding notes, audits, or tooling, those are strays — the bundle holds only concepts, and **finding them is the finding**. Move them out of the bundle rather than loosening the boundary, and say plainly what you moved and why.
 - If the project will keep living design docs, create `development/design/` and mention `phase-tracker` Step 3.5 will sync them.
 - Add `.worktrees/` to the project's `.gitignore` (create the file if absent) — every phase worktree is created there and must never be tracked by the primary checkout.
 - Optionally install the conventions at the project root (`TERMINOLOGY.md`, `templates/recap_template.md`, `templates/response_templates.md`, `phase_project.md`) so the skills' links resolve and the repo self-documents.

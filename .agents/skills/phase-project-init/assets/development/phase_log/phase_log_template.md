@@ -22,11 +22,11 @@ Replace every placeholder in the front matter, the title, the body, and the
 relationship footer. If the phase stopped, paused, or delivered only part of its
 scope, use the truthful status values rather than the defaults above. Writing
 this log also means updating the paired plan's front-matter status to the same
-values — the validator enforces that they agree, while the plan's narrative
-keeps recording the state in which it was authored.
+values — the pair must agree, while the plan's narrative keeps recording the
+state in which it was authored.
 
-The contract is scripts/okf/profile.md; check your work with
-`python3 scripts/okf/manage_bundle.py validate`.
+This template is the contract; re-check the front matter and the footer before
+the phase closes.
 -->
 
 # Phase <NUM> — <Short Descriptive Name>
@@ -101,5 +101,3 @@ the evidence shows actually happened.
 - Builds on: [Phase A.B.C log](phase_A.B.C_log.md) — <the evidence-backed continuity between that outcome and this result>
 - Verified design impact:
   - [Design concept](../design/example.md) — <the current-state concept this phase actually changed or confirmed>
-- Verified knowledge impact:
-  - [Knowledge profile](../../scripts/okf/profile.md) — <the model this phase actually changed or confirmed>

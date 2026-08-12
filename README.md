@@ -52,7 +52,7 @@ health:  phase-audit (verify the log + git state anytime)
 | [`phase-recap`](phase-recap/SKILL.md) | **Core / reader** | Loads project state from the phase logs — silently at session start, or as an explicit scoped 🧭 recap report. Never reads the codebase. |
 | [`phase-decompose`](phase-decompose/SKILL.md) | Planner | Turns a large goal into an umbrella roadmap of small, testable, dependency-ordered phases. |
 | [`phase-loop`](phase-loop/SKILL.md) | Orchestrator | Drives a whole effort to completion by looping the phase cycle against the roadmap; resumes half-finished efforts. |
-| [`phase-project-init`](phase-project-init/SKILL.md) | Setup (fresh) | Bootstraps an empty repo: git, `development/phase_log/`, templates, conventions. |
+| [`phase-project-init`](phase-project-init/SKILL.md) | Setup (fresh) | Bootstraps an empty project: `development/phase_log/`, templates, conventions — and git only if you want it (it asks; easy to add later). |
 | [`phase-adopt`](phase-adopt/SKILL.md) | Setup (existing) | Retrofits the workflow into a repo that already has code and history, with optional git-history backfill. |
 | [`phase-audit`](phase-audit/SKILL.md) | Health check | Verifies the phase log against git: orphan plans, broken index links, dangling worktrees, stale docs. Read-only by default. |
 
@@ -133,7 +133,8 @@ A Major is never "sealed" — related future work is always numbered near its th
 
 Each Minor runs one cycle: **new worktree + branch + phase plan → implement →
 phase log + commit → PR**. Plans are approved before code; logs are written
-before the PR. Each numbered plan/log is a direct born-native OKF concept with
+before the PR. Git is optional — `phase-project-init` asks, and a project that
+declines it runs the same cycle minus the branch / commit / PR steps. Each numbered plan/log is a direct born-native OKF concept with
 complete YAML and a reviewed relationship footer. Living design concepts use
 the same Revere-proven direct-authoring shape.
 
@@ -188,9 +189,8 @@ phase-<name>/                Claude plugin sources, the source of truth
                              (+ phase-amend maintenance)
 .agents/skills/phase-*/      exact ChatGPT/Codex mirrors
 .claude/skills/phase-*/      exact copies this repo's own agent runtime loads
-phase-project-init/assets/   complete OKF + PR scaffold installed into projects
+phase-project-init/assets/   complete development/ + PR scaffold installed into projects
 TERMINOLOGY.md               canonical glossary (Major/Minor/Patch, recap scoping, core principles)
-OKF.md                       direct-concept + relationship + attribution profile
 VERSIONING.md                canonical release-versioning and tagging policy
 CHANGELOG.md                 what changed in each release
 templates/                   recap + response-banner formats
