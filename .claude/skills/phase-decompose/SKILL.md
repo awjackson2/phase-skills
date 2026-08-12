@@ -1,6 +1,6 @@
 ---
 name: phase-decompose
-version: 1.2.0
+version: 1.2.1
 description: Use to turn a large goal into a well-chunked umbrella roadmap before any phase work starts. Trigger when the user hands over a big feature or project and says "break this down", "decompose this", "chunk this into phases", "plan out this whole thing", "make a roadmap", or when phase-loop needs an umbrella to drive. Produces the MAJOR.0.0 umbrella plan — the ordered roadmap of Minors and Patches — applying a quality bar (tiny independently-testable steps, dependency ordering, risk tags, right-sizing) and leaving numbering room so future work can append near its theme. Hands off to phase-loop (multi-phase) or phase-tracker (single Minor).
 ---
 

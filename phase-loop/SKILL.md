@@ -1,6 +1,6 @@
 ---
 name: phase-loop
-version: 1.2.0
+version: 1.2.1
 description: Use to drive a large multi-step effort to completion by running phase cycles continuously. Trigger when the user hands over a big plan and wants it chunked into phases and executed end-to-end ("loop through this plan", "build this whole thing", "run phase cycles until done", "phase loop"), OR when the user wants to CONTINUE a half-finished effort and complete all remaining phases ("pick up where we left off", "finish the rest of this", "continue from 8.5.1"). Orchestrates phase-tracker and phase-recap: it builds (or recovers) an umbrella plan that chunks the work into Minors and Patches, then loops the phase cycle — recap, plan, implement, log, commit, PR — until every phase ships. Uses Claude's /loop to self-pace across turns and sessions.
 ---
 

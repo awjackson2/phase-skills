@@ -1,6 +1,6 @@
 ---
 name: phase-project-init
-version: 1.2.0
+version: 1.2.1
 description: Use to bootstrap a fresh project for the phase-driven workflow. Trigger when the user is starting a brand-new project, says "initialize the project", "set up the project", "bootstrap this repo", "set up the phase workflow here", "phase init", or otherwise wants the scaffolding (development directories, phase-log templates, optionally git) in place before any phase work begins. Asks whether the project should use git (it is optional), sets up the development/phase_log/ structure, the plan/log/index templates, and the conventions the phase-tracker and phase-recap skills expect, then hands off to phase-tracker or phase-loop for the first phase.
 ---
 
