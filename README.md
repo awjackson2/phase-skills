@@ -189,7 +189,7 @@ phase-<name>/                Claude plugin sources, the source of truth
                              (+ phase-amend maintenance)
 .agents/skills/phase-*/      exact ChatGPT/Codex mirrors
 .claude/skills/phase-*/      exact copies this repo's own agent runtime loads
-phase-project-init/assets/   complete development/ + PR scaffold installed into projects
+phase-project-init/assets/   everything installed into projects: development/, the charter, the PR template
 TERMINOLOGY.md               canonical glossary (Major/Minor/Patch, recap scoping, core principles)
 VERSIONING.md                canonical release-versioning and tagging policy
 CHANGELOG.md                 what changed in each release
