@@ -259,6 +259,21 @@ def main() -> int:
             errors,
         )
 
+    # The charter must ship with the skills: init/adopt seed the project's
+    # agent guide from this asset, so an install without it cannot complete.
+    charter_asset = ROOT / "phase-project-init" / "assets" / "phase_project.md"
+    require(
+        charter_asset.is_file(),
+        "charter asset missing: phase-project-init/assets/phase_project.md",
+        errors,
+    )
+    if charter_asset.is_file():
+        require(
+            charter_asset.read_bytes() == (ROOT / "phase_project.md").read_bytes(),
+            "root phase_project.md and the shipped charter asset differ",
+            errors,
+        )
+
     validate_phase_template(
         ASSETS / "phase_log" / "phase_plan_template.md",
         concept_type="Phase Plan",

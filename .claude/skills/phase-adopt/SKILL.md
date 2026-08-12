@@ -6,17 +6,17 @@ description: Use to retrofit the phase workflow into an EXISTING project that al
 
 # Phase Adopt
 
-This skill brings the phase workflow to a project that **already exists** — it has source code, a git history, probably a shared default branch, maybe a `CLAUDE.md`. It is the existing-repo counterpart to `phase-project-init` (use that one only for an empty/new repo).
+This skill brings the phase workflow to a project that **already exists** — it has source code, a git history, probably a shared default branch, maybe an agent guide (`CLAUDE.md` / `AGENTS.md`). It is the existing-repo counterpart to `phase-project-init` (use that one only for an empty/new repo).
 
 Key difference from init: the default branch is already established and may be protected and shared, so adoption does **not** make a bootstrap commit straight to it. The scaffolding lands through a **docs-lane PR**, exactly like any other doc change in a live repo.
 
-It is **not a phase** (no plan/log for adopting). It reuses the same templates `phase-project-init` installs.
+It is **not a phase** (no plan/log for adopting). It reuses the same templates `phase-project-init` installs — its payload lives under that skill's `assets/`, so `phase-project-init` must be installed alongside this skill; if it isn't, ask the user to add it rather than reconstructing the payload by hand.
 
 ## Procedure
 
 ### Step 1: Survey the repo
 
-Determine: is it a git repo? (Usually yes for an existing project. If not, ask whether the user wants git — it is optional in this workflow. Without git, skip the docs-lane PR machinery below and land the scaffolding as plain file writes; an empty directory belongs to `phase-project-init` instead.) What is the default branch? Is there a `CLAUDE.md`? Is there already a `development/phase_log/`? If the log already exists, **stop** — the project is adopted; run `phase-recap` to load state instead.
+Determine: is it a git repo? (Usually yes for an existing project. If not, ask whether the user wants git — it is optional in this workflow. Without git, skip the docs-lane PR machinery below and land the scaffolding as plain file writes; an empty directory belongs to `phase-project-init` instead.) What is the default branch? Is there an agent guide (`CLAUDE.md` / `AGENTS.md`)? Is there already a `development/phase_log/`? If the log already exists, **stop** — the project is adopted; run `phase-recap` to load state instead.
 
 ### Step 2: Decide the numbering origin
 
@@ -43,12 +43,13 @@ On a fresh `docs/adopt-phase-workflow` branch cut from the up-to-date default br
 - Install the **knowledge bundle** by copying `phase-project-init/assets/development/` → `development/`. That lands the reserved root files (`index.md`, `log.md`), the `design/` layer with its element template, and the three phase-log templates. The seeded index gets the Step 3 backfill (or the empty-with-note form).
 - Check the bundle boundary before opening the PR. On an existing repo this matters more than on a fresh one: if the project already had a `development/` directory holding notes, audits, or tooling, those are strays — the bundle holds only concepts, and **finding them is the finding**. Move them out of the bundle rather than loosening the boundary, and say plainly what you moved and why.
 - If the project will keep living design docs, create `development/design/` and mention `phase-tracker` Step 3.5 will sync them.
+- Copy `phase-project-init/assets/.github/pull_request_template.md` → `.github/pull_request_template.md` (unless the repo already has a PR template the team wants to keep — then offer to merge the phase-artifacts and agent-signatures sections into it instead of overwriting).
 - Add `.worktrees/` to the project's `.gitignore` (create the file if absent) — every phase worktree is created there and must never be tracked by the primary checkout.
-- Optionally install the conventions at the project root (`TERMINOLOGY.md`, `templates/recap_template.md`, `templates/response_templates.md`, `phase_project.md`) so the skills' links resolve and the repo self-documents.
+- Optionally install the conventions at the project root (`TERMINOLOGY.md`, `templates/recap_template.md`, `templates/response_templates.md`) so the skills' links resolve and the repo self-documents. These ship only with the full phase-skills repository; if only the skills were installed, skip this — nothing breaks.
 
-### Step 5: Seed or update CLAUDE.md
+### Step 5: Seed or update the project's agent guide
 
-Add the **phase workflow charter** by pasting the content of `phase_project.md` (everything below its `---`). If a `CLAUDE.md` exists, **append** the charter (don't overwrite the project's existing guidance); if not, create one with it. `phase_project.md` is the single source for this section — don't hand-write a divergent version. Include it in the same docs-lane PR as the scaffolding.
+Add the **phase workflow charter** by pasting the content of `phase-project-init/assets/phase_project.md` (everything below its `---`) — the charter ships as an asset of that skill so this step works in every install; never skip it because a repo-root `phase_project.md` wasn't found. Install it into whichever agent guide file(s) the project's agents read — `CLAUDE.md` (Claude Code), `AGENTS.md` (Codex, Copilot, and other agents), or **both** if in doubt. If a guide file exists, **append** the charter (don't overwrite the project's existing guidance); if not, create it with the charter. The asset is the single source for this section — don't hand-write a divergent version. Include it in the same docs-lane PR as the scaffolding.
 
 ### Step 6: Open the docs-lane PR
 
@@ -63,7 +64,7 @@ Route the first tracked effort:
 
 ## Setup summary
 
-Report: default branch detected, numbering origin chosen, backfill done/skipped (and how many entries), scaffolding PR opened, CLAUDE.md appended/created (or not), and the proposed first phase with the skill that will run it.
+Report: default branch detected, numbering origin chosen, backfill done/skipped (and how many entries), scaffolding PR opened, which agent guide file(s) got the charter (`CLAUDE.md` / `AGENTS.md`), and the proposed first phase with the skill that will run it.
 
 ## What this skill should not do
 

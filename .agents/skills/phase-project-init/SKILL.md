@@ -58,6 +58,13 @@ target shape:
     current-state layer.
   - `phase_log/phase_plan_template.md`, `phase_log/phase_log_template.md`,
     `phase_log/phase_index.md` — the phase-history layer, seeded and empty.
+- If the project uses git and will open PRs (a remote / forge exists or is
+  planned), also copy `assets/.github/pull_request_template.md` →
+  `.github/pull_request_template.md` so every PR carries the phase-artifacts
+  and agent-signatures sections. Skip it in a no-git project.
+
+(The remaining asset, `assets/phase_project.md`, is the portable workflow
+charter — it is installed in Step 5, not copied to the project root.)
 
 There is no separate schema file or validator tool — the templates *are* the
 contract, and upholding it (complete front matter, one `## OKF relationships`
@@ -73,17 +80,20 @@ The phase skills each embed their own conventions, so they work without these fi
 
 - `TERMINOLOGY.md` — the Major / Minor / Patch glossary and the scoped-recap rules.
 - `templates/recap_template.md` and `templates/response_templates.md` — the recap report format and the labeled response banners.
-- `phase_project.md` — the portable workflow charter (used in Step 5).
 
-If the full phase-skills suite is available alongside the skills, copy those files to the project root. If only the individual skills were dropped in, skip this — nothing breaks.
+These ship only with the full phase-skills repository, not with the installed skills. If the full suite is available alongside the skills, copy those files to the project root; if only the skills were installed (the plugin or copied skill folders), skip this — nothing breaks, because every skill embeds what it needs.
 
-### Step 5: Seed or update the project's CLAUDE.md
+### Step 5: Seed or update the project's agent guide
 
-Add the **phase workflow charter** to the project's `CLAUDE.md`: paste the content of `phase_project.md` (everything below its `---`). It is self-sufficient — it drives the workflow even without the skills, and it carries the terminology, response banners, and git rules into the project. If a `CLAUDE.md` exists, **append** the charter (don't overwrite the project's existing guidance); if not, create one with it. `phase_project.md` is the single source for this section — don't hand-write a divergent version.
+Add the **phase workflow charter** to the project's agent guide file: paste the content of this skill's `assets/phase_project.md` (everything below its `---`). The charter ships as an asset of this skill precisely so this step works in every install — never skip it because a repo-root `phase_project.md` wasn't found; the asset copy is the same file.
+
+- **Which guide file:** whichever the project's agents read — `CLAUDE.md` (Claude Code), `AGENTS.md` (Codex, Copilot, and other agents), or **both** if in doubt or the user works with several. When both exist they should carry the same charter text.
+- If a guide file exists, **append** the charter (don't overwrite the project's existing guidance); if not, create it with the charter.
+- The asset is the single source for this section — don't hand-write a divergent version.
 
 ### Step 6: Initial commit (git projects only)
 
-If the project uses git, stage the scaffolding with an explicit file list (the `development/` tree, `.gitignore`, any conventions/CLAUDE.md added) and commit to the default branch:
+If the project uses git, stage the scaffolding with an explicit file list (the `development/` tree, `.gitignore`, `.github/pull_request_template.md` if installed, and the guide file(s) touched in Step 5) and commit to the default branch:
 
 ```
 chore: bootstrap phase workflow scaffolding
@@ -102,7 +112,7 @@ Numbering starts at Major 1. Reserve `MAJOR.0.0` for a Major's umbrella/roadmap 
 
 ## Setup summary
 
-When done, give the user a short report: git set up (default branch) or deliberately skipped, `development/phase_log/` created with templates + seeded index, conventions installed (or skipped), CLAUDE.md created/updated (or not), initial commit made (git projects), and the proposed first phase with the skill that will run it.
+When done, give the user a short report: git set up (default branch) or deliberately skipped, `development/phase_log/` created with templates + seeded index, PR template installed (or not applicable), conventions installed (or skipped), which agent guide file(s) got the charter (`CLAUDE.md` / `AGENTS.md`), initial commit made (git projects), and the proposed first phase with the skill that will run it.
 
 ## What this skill should not do
 

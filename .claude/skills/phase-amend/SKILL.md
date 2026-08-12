@@ -54,7 +54,7 @@ Edit in this order so the source of truth leads and the copies conform to it:
 
 1. **Canonical** — `TERMINOLOGY.md`, `templates/`, `phase_project.md`.
 2. **Embedded copies** — each affected skill, matching the canonical wording (adapted to that skill's voice; the *rule* must match, the prose needn't be identical).
-3. **Assets** — the plan/log/index templates under `phase-project-init/assets/`.
+3. **Assets** — the plan/log/index templates under `phase-project-init/assets/`, and the shipped charter copy `phase-project-init/assets/phase_project.md`, which must stay **byte-identical** to the root `phase_project.md` (re-copy it after any charter edit; `validate_repo.py` enforces the match).
 4. **`CLAUDE.md`** — the invariants list, repo contents, architecture notes.
 5. **Memory** — update the relevant memory file and `MEMORY.md`.
 

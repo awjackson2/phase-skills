@@ -10,6 +10,22 @@ projects are a separate numbering system and never appear here.
 
 ## [Unreleased]
 
+### Fixed
+
+- The portable workflow charter now ships as a skill asset
+  (`phase-project-init/assets/phase_project.md`), so init/adopt can seed the
+  project's agent guide in every install. Previously the charter existed only
+  at the authoring-repo root, which never ships with the skills — a standalone
+  install (plugin, copied folders, or `.agents/skills/` for Codex/Copilot)
+  could not complete the guide-seeding step and produced no `AGENTS.md`.
+  `validate_repo.py` enforces that the asset stays byte-identical to the root
+  charter.
+- Init and adopt now name the agent guide file(s) to seed — `CLAUDE.md`,
+  `AGENTS.md`, or both — instead of assuming `CLAUDE.md`.
+- The shipped PR-template asset is now actually installed: init copies it in
+  git projects that expect PRs, and adopt copies it (or offers to merge it into
+  an existing template). Previously it shipped but no step referenced it.
+
 ## [1.2.0] — 2026-08-11
 
 ### Changed
