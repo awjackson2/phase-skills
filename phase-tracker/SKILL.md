@@ -1,6 +1,6 @@
 ---
 name: phase-tracker
-version: 1.1.0
+version: 1.2.0
 description: Use whenever the user starts non-trivial development work, says things like "let's start phase X", "start the phase", "let's begin a new feature", "next we're going to...", "phase X is done", "close the phase", "write up the phase log", or describes upcoming work that will involve multiple commits or files. Generates a phase plan file at the start of a phase and a phase log file at the end, both under development/phase_log/, following a strict phase-driven workflow. Every meaningful development effort is part of a numbered phase — if the user describes work that does not match a current plan, surface that and offer to draft a plan before coding. Trigger even when the user does not explicitly say "phase".
 ---
 

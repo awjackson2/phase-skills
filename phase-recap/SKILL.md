@@ -1,6 +1,6 @@
 ---
 name: phase-recap
-version: 1.1.0
+version: 1.2.0
 description: Use this skill to load context about the project's state from its phase logs before answering or acting on anything substantial. Runs in two modes — an ambient session recap that silently loads general state into working memory, and an explicit scoped recap that prints a clean report of the phases preceding the current one within the current phase's scope. Trigger when the agent lacks current state — start of a session, "catch me up", "what's the state", "summarize the project", "what's in progress / deferred / placeholder" — or when the user asks for a recap at a phase level ("phase recap Major 5", "recap 5.4", "catch me up on 5.3.2"), and BEFORE proposing scope or drafting a phase plan. Reads only from development/phase_log/, never the codebase.
 ---
 

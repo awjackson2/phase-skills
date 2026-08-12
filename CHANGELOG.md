@@ -10,6 +10,8 @@ projects are a separate numbering system and never appear here.
 
 ## [Unreleased]
 
+## [1.2.0] — 2026-08-11
+
 ### Changed
 
 - **Git is optional.** `phase-project-init` now asks whether the project should
@@ -80,6 +82,7 @@ projects are a separate numbering system and never appear here.
   `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json`.
 - MIT license and README covering both install routes.
 
-[Unreleased]: https://github.com/awjackson2/phase-skills/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/awjackson2/phase-skills/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/awjackson2/phase-skills/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/awjackson2/phase-skills/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/awjackson2/phase-skills/releases/tag/v1.0.0
