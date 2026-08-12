@@ -1,6 +1,6 @@
 ---
 name: phase-adopt
-version: 1.1.0
+version: 1.2.0
 description: Use to retrofit the phase workflow into an EXISTING project that already has code and git history. Trigger when the user says "adopt the phase workflow here", "set up phases in this existing repo", "start using phases on this project", "retrofit the workflow", or drops these skills into a project that already has commits. Unlike phase-project-init (which bootstraps an empty repo), this works with an established, possibly-shared default branch: it adds development/phase_log/ via a docs-lane PR, optionally backfills a light phase history reconstructed from git, settles where the first new phase number starts, then hands off to phase-decompose/phase-loop or phase-tracker.
 ---
 

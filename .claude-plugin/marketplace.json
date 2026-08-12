@@ -9,7 +9,7 @@
       "name": "phase-workflow",
       "source": "./",
       "description": "OKF-native phase workflow for Claude Code with direct phase/design concepts, worktree discipline, roadmap execution, audits, and agent attribution. Exact ChatGPT/Codex skill mirrors are included in the repository.",
-      "version": "1.1.0"
+      "version": "1.2.0"
     }
   ]
 }
