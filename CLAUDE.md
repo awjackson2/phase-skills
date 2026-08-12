@@ -80,7 +80,7 @@ health:  phase-audit (verify the log + git state anytime)
 The suite ships one version for all eight skills; there are no independent per-skill versions. `VERSIONING.md` is canonical. The essentials:
 
 - The suite version is SemVer and is **separate from phase numbers**, which happen to share the `MAJOR.MINOR.PATCH` shape. A phase number is never a version, and the suite version never appears in a phase plan, log, or index.
-- MAJOR breaks a convention that existing `development/` bundles depend on (front matter, numbering grammar, what `manage_bundle.py` accepts); MINOR adds backward-compatible capability; PATCH changes no convention. When a change is arguably MINOR or MAJOR, choose MAJOR.
+- MAJOR breaks a convention that existing `development/` bundles depend on (front matter, numbering grammar, the record shape the templates define); MINOR adds backward-compatible capability; PATCH changes no convention. When a change is arguably MINOR or MAJOR, choose MAJOR.
 - The version lives in exactly four places, which must agree: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, every `SKILL.md` frontmatter, and the newest release heading in `CHANGELOG.md`. `scripts/validate_repo.py` enforces this.
 - Record every notable change under `CHANGELOG.md`'s `Unreleased` heading as you make it, not at release time.
 - Tags are annotated, prefixed `v`, and cut only from a commit reachable from `main` after the release PR merges. Never tag an unmerged branch tip.

@@ -30,7 +30,7 @@ phase plan, phase log, or index. See `TERMINOLOGY.md` for the phase hierarchy.
 Semantic Versioning, read against a workflow-conventions package rather than a
 code library. The contract is the **conventions installed projects rely on** —
 the knowledge-bundle layout, the phase-record front matter, the numbering
-grammar, and what `scripts/okf/manage_bundle.py` accepts.
+grammar, and the record shape the phase templates define.
 
 - **MAJOR** — a breaking convention change: existing phase records, indexes, or
   `development/` bundles produced by the previous version would no longer
