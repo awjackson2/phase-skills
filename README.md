@@ -153,7 +153,7 @@ that same version in its `SKILL.md` frontmatter:
 ```yaml
 ---
 name: phase-tracker
-version: 1.2.0
+version: 1.2.1
 description: ...
 ---
 ```

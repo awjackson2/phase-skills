@@ -1,6 +1,6 @@
 {
   "name": "phase-workflow",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "OKF-native phase-driven development workflow: plan-before-code gates, direct phase and design concepts, worktree and PR discipline, roadmap execution, integrity audits, and agent attribution.",
   "author": {
     "name": "awjackson2",

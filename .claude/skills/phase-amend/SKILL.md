@@ -1,6 +1,6 @@
 ---
 name: phase-amend
-version: 1.2.0
+version: 1.2.1
 description: Use this skill in the phase-skills authoring repo whenever the user wants to change a rule, convention, terminology, or format of the phase workflow and have it stay consistent across the whole suite. Trigger on "change the phase rule", "update the numbering convention", "phases should now…", "update the phase skills to…", "propagate this convention", "add/rename a response banner", "the index should…", "make the skills consistent", or any edit to a shared phase convention — even if the user names only one file. A single convention is duplicated across the canonical docs, all the phase-* skills' embedded copies, the template assets, the portable charter, CLAUDE.md, and a memory; editing one by hand silently drifts the rest. This skill maps every place the convention lives, applies the change everywhere, verifies no drift remains, and overrides the installed .claude/skills copies. Prefer it over hand-editing whenever a change touches a shared rule rather than one skill's private wording.
 ---
 
