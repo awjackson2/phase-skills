@@ -7,5 +7,4 @@ Newest entries at the bottom.
 
 ## YYYY-MM-DD — bundle initialized
 
-Created the `development/` bundle with its design and phase-history layers, and
-installed the schema and validator under `scripts/okf/`.
+Created the `development/` bundle with its design and phase-history layers.

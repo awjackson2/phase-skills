@@ -12,16 +12,10 @@ else. Everything inside it is a concept:
   intended and shipped change.
 - [Bundle log](log.md) — material changes to this bundle.
 
-The schema and its validator live in [`scripts/okf/`](../scripts/okf/profile.md),
-beside each other rather than inside the bundle they describe.
+Every concept carries YAML front matter, and phase records end with one
+`## OKF relationships` footer — the templates in each layer carry the shape.
 
 Evidence and analysis — audits, triage notes, scratch research — live outside
 this directory. They may support a claim but never become current-state
 authority, so they sit outside the bundle by construction rather than by
 exclusion rule.
-
-Validate the bundle with:
-
-```bash
-python3 scripts/okf/manage_bundle.py validate
-```

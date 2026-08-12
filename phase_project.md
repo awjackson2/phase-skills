@@ -48,12 +48,9 @@ prompt → discuss/refine → pick the number → cut the `phase-<MAJOR.MINOR>-s
 
 ```
 development/
-  index.md  log.md  .okfignore     reserved structure, not concepts
+  index.md  log.md                 reserved structure, not concepts
   design/                          curated current state
   phase_log/                       phase plans and logs
-scripts/okf/
-  manage_bundle.py                 validator + graph builder (stdlib only)
-  profile.md                       the schema it enforces
 ```
 
 Every concept carries YAML front matter (`type`, `title`, `description`, `tags`;
@@ -61,14 +58,14 @@ phase records add `phase`, `phase_status`, `delivery_status`, `recorded_on`) and
 every phase record ends with one `## OKF relationships` footer. A plan and its
 log must agree on status, and a log must link its plan — so writing the log also
 updates the plan's front matter, while the plan's narrative keeps recording the
-state in which it was authored.
+state in which it was authored. The templates carry this shape; there is no
+separate schema file or validator tool — upholding the format is part of writing
+the record, so check the front matter and footer whenever you write or edit one.
 
 Evidence — audits, triage notes, scratch research — lives **outside**
 `development/`. It may support a claim but never becomes current-state
 authority, so it sits outside the bundle by construction rather than by an
-exclusion rule. Run `python3 scripts/okf/manage_bundle.py validate` at each phase
-boundary; CI that skips tests for docs-only changes will not catch a malformed
-record on its own.
+exclusion rule.
 
 ### Agent attribution
 
@@ -83,6 +80,8 @@ Omit agents that did not materially contribute. Attribution records who did the
 work, not which tool happened to be open.
 
 ### Git rules
+
+**Git is optional.** `phase-project-init` asks whether the project should use git; a project can run the whole workflow without it — plans, logs, and the index work the same, and the branch / worktree / commit / PR steps of the cycle are simply skipped. Adding git later is easy (`git init`, commit everything as the baseline, then follow the rules below from that point on). The rules below apply to git-tracked projects:
 
 - **Never develop on the default branch** — it's protected; changes reach it only through merged PRs.
 - Cut each Minor's branch + worktree from an up-to-date default branch; **create the worktree under `.worktrees/<branch-name>` — never anywhere else** (keep `.worktrees/` gitignored). Do all work in the worktree. Patches commit onto the Minor's branch.

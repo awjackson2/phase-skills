@@ -42,15 +42,13 @@ Three rules bite in practice:
   Link what the work actually touched; never infer a relationship from
   phase-number adjacency or filename similarity.
 
-Check your work before committing, if the project carries the validator:
-
-```bash
-python3 scripts/okf/manage_bundle.py validate
-```
+There is no validator tool — the templates carry the shape, and upholding it is
+part of writing the record. Before closing a phase, re-check the front matter
+and footer of what you wrote against these rules.
 
 Evidence — audits, triage notes, scratch research — never goes inside
-`development/`. It belongs elsewhere in the repo, and the validator refuses
-strays on purpose. See `scripts/okf/profile.md` for the full contract.
+`development/`. It belongs elsewhere in the project; the bundle stays concepts-only
+so the directory explains itself.
 
 ## Terminology
 
@@ -67,6 +65,8 @@ Each phase runs the same pipeline — the **phase cycle** — all of it inside a
 prompt → discussion → refinement → determine the phase number → cut the phase branch → create the local worktree → move into the branch + worktree → write the phase plan → **🟦 plan confirmation** → **🟩 development approval** → implement → give a change summary and wait for confirmation → write the phase log → sync any living design docs → commit to the branch → pull the default branch to stay current → resolve conflicts → open the PR → **🏁 phase done**.
 
 Branch granularity is the **Minor** (`MAJOR.MINOR`) — one branch, one worktree, one PR per Minor. **Patches** (`MAJOR.MINOR.PATCH`) are commits on that same branch; they keep their own plan/log but get no separate branch, worktree, or PR. See "Git and worktree rules".
+
+**Projects without git.** Git is optional — `phase-project-init` asks, and some projects decline. In a project with no git repo, skip every git step of the cycle (branch, worktree, commit, pull, PR): the cycle is prompt → plan → 🟦 → 🟩 → implement → summarize → log → index → 🏁. Everything else in this skill — plan before code, the gates, the log, the index, design-doc sync — applies unchanged. If the user later wants git, help them add it (`git init`, commit everything as the baseline) and follow the full cycle from then on.
 
 ## Response banners
 
@@ -92,7 +92,7 @@ Use this mode at the **start** of a phase, before writing code.
 
 > **Plan before code — always, no exceptions.** The `phase_<NUM>_plan.md` file must be written (and confirmed) before any implementation code is touched — even when an umbrella/roadmap plan already enumerates the work. Each concrete phase gets its own plan file *first*. Never implement and backfill the plan afterward; if you catch yourself coding without a plan file, stop and write it.
 
-> **Branch and worktree before plan.** Before writing the plan, cut the phase branch and create its local worktree **under `.worktrees/<branch-name>` (never anywhere else)**, then move into them. The plan file is written inside the worktree, not the primary checkout.
+> **Branch and worktree before plan.** In a git-tracked project: before writing the plan, cut the phase branch and create its local worktree **under `.worktrees/<branch-name>` (never anywhere else)**, then move into them. The plan file is written inside the worktree, not the primary checkout. (No-git project: just write the plan.)
 
 **Model tip (optional).** Planning benefits from stronger reasoning; implementation doesn't need it. This is a natural point to switch to a stronger-reasoning model — e.g. `/model opus` — for drafting the plan. Claude can't switch models on its own, so do it yourself if you want it; nothing below depends on it. Switch back before implementation starts (see Step 5).
 
@@ -200,7 +200,7 @@ After the log is written and the index entry appended, **commit the phase's work
 - Message format: `Phase X.Y.Z: <short summary>`.
 - **Commit to the phase branch, never to the default branch.** The default branch is protected. The phase is already on its `phase-<MAJOR.MINOR>-slug` branch; Patches commit onto that same branch.
 - Stage the phase's code, tests, plan/log/index files, and any synced design docs together with an explicit file list (never `git add -A`) so the phase is one atomic, revertable unit. End the message with the `Co-Authored-By:` trailer.
-- If the project carries `scripts/okf/manage_bundle.py`, run `validate` (and `build`, if the graph is checked in) before committing. CI that skips tests for documentation-only changes will not catch a malformed record — a phase-log-only change is exactly the shape that slips through.
+- Before committing, re-check the phase records you wrote against the bundle rules ("Plans and logs are concepts" above) — front matter complete and agreeing between plan and log, one `## OKF relationships` footer, the log linking its plan. No tool catches a malformed record; this read-through is the check.
 - **After committing, pull/rebase onto the latest default branch and resolve conflicts.** Re-run affected scoped tests if new code merged in.
 - **Open the PR when the Minor wraps** — one PR per Minor: push the branch and open a PR to the default branch (`gh pr create`), title `Phase X.Y.Z: <summary>`, body summarizing the log(s). If the Minor has planned Patches (e.g. `2.1.0` then `2.1.1`), wait until the **last** planned phase on the branch is committed, then open a single PR covering them all — not one PR per phase. A Patch raised *after* the Minor's PR merged is a new cycle: its own branch off the latest default branch, its own PR. Merge only after CI is green.
 
@@ -248,7 +248,7 @@ For a **corrective change**, decide first whether it is a **Patch** on the curre
 
 ## Git and worktree rules
 
-These make the phase cycle safe and revertable. The skill is self-contained — it does not depend on a separate rules file in the project.
+These make the phase cycle safe and revertable. The skill is self-contained — it does not depend on a separate rules file in the project. They apply to git-tracked projects; in a project that declined git, see "Projects without git" above.
 
 - **Never develop on the default branch.** It is protected; every change reaches it only through a merged PR.
 - **Cut a `phase-<MAJOR.MINOR>-slug` branch from an up-to-date default branch** at phase start, and create a dedicated worktree for it **under `.worktrees/<branch-name>` — never anywhere else**. Keep `.worktrees/` gitignored so the checkouts never pollute the primary working tree. Do all development inside that worktree.

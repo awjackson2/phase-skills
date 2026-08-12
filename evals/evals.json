@@ -16,7 +16,7 @@
     {
       "id": 3,
       "prompt": "Update the terminology: rename 'Patch' to 'Task' everywhere (so it's Major / Minor / Task now). Keep everything consistent across the skills, charter, OKF templates, and agent mirrors.",
-      "expected_output": "Patch → Task across TERMINOLOGY.md, OKF.md, every affected root skill, response and recap templates, phase_project.md, init assets, README, and evals. Capitalization, numbering, branch/worktree rules, filenames, metadata examples, and relationship examples remain coherent. Root skills are copied exactly to .agents/skills, the three agent guides remain exact, and validation plus a repository search finds no unintended old terminology.",
+      "expected_output": "Patch → Task across TERMINOLOGY.md, every affected root skill, response and recap templates, phase_project.md, init assets, README, and evals. Capitalization, numbering, branch/worktree rules, filenames, metadata examples, and relationship examples remain coherent. Root skills are copied exactly to .agents/skills, the three agent guides remain exact, and validation plus a repository search finds no unintended old terminology.",
       "files": []
     }
   ]

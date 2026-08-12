@@ -30,7 +30,7 @@ A good roadmap satisfies all of these:
 3. **Pick the Major.** The next free Major for a new milestone, or — honoring appendability — an existing Major's theme if the work is a continuation. State which and why.
 4. **Draft the roadmap.** List the Minors in dependency order, each with: a one-line goal, its dependencies, a risk tag, and any obvious Patches under it. First version of each Minor is `MAJOR.MINOR.0`.
 5. **Pressure-test the chunking** against the quality bar above. For each Minor ask: independently shippable? independently testable? right-sized? correctly ordered? Re-cut anything that fails. This is the step that earns the skill its keep — don't skip it.
-6. **Write the umbrella** at `development/phase_log/phase_<MAJOR>.0.0_plan.md` (using the plan template) with the roadmap checklist. It is a phase record like any other, so it keeps the template's front matter and `## OKF relationships` footer — an umbrella with no impact relationship fails validation just as a normal plan would:
+6. **Write the umbrella** at `development/phase_log/phase_<MAJOR>.0.0_plan.md` (using the plan template) with the roadmap checklist. It is a phase record like any other, so it keeps the template's front matter and `## OKF relationships` footer — an umbrella needs at least one intended impact relationship just as a normal plan does:
 
    ```
    ## Roadmap checklist

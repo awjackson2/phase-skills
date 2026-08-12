@@ -207,7 +207,6 @@ def main() -> int:
     required_assets = (
         "index.md",
         "log.md",
-        ".okfignore",
         "design/index.md",
         "design/_element_template.md",
         "phase_log/phase_index.md",
@@ -220,16 +219,21 @@ def main() -> int:
             f"phase-project-init asset missing: development/{relative}",
             errors,
         )
-    schema_assets = ROOT / "phase-project-init" / "assets" / "scripts" / "okf"
-    for relative in ("manage_bundle.py", "profile.md"):
-        require(
-            (schema_assets / relative).is_file(),
-            f"phase-project-init asset missing: scripts/okf/{relative}",
-            errors,
-        )
+    # The OKF format is the bundle's native shape, but it is not packaged
+    # separately: no OKF.md doc, no scripts/okf/ schema or validator shipped.
     require(
-        not (ASSETS / "OKF").exists(),
-        "development/OKF/ is superseded: the schema layer lives in scripts/okf/",
+        not (ROOT / "OKF.md").exists(),
+        "OKF.md is superseded: the format lives inline in the docs and templates",
+        errors,
+    )
+    require(
+        not (ROOT / "phase-project-init" / "assets" / "scripts").exists(),
+        "assets/scripts/ is superseded: no validator or schema ships to projects",
+        errors,
+    )
+    require(
+        not (ASSETS / ".okfignore").exists(),
+        ".okfignore is superseded: the bundle boundary is prose, not tooling",
         errors,
     )
 
@@ -283,8 +287,7 @@ def main() -> int:
         )
         # The project contract requires a relationship footer on phase records
         # only; design concepts link freely in prose. Asserting a footer here
-        # would make this validator stricter than manage_bundle.py, and the two
-        # disagreeing is worse than either rule alone.
+        # would make this validator stricter than the contract the skills state.
         require(
             "wrapper" in design_text.lower() and "copy" in design_text.lower(),
             "design template must prohibit wrappers and copied bodies",
